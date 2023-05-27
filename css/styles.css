@@ -14,15 +14,12 @@ h1.gallery-title {
     color: rgb(255, 255, 255);
 }
 
-.grid {
-    margin: 0 auto;
-}
-
 .container {
     background-color: rgb(27, 37, 51);
     border-radius: 0.5rem;
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
-    padding: 2rem 1.5rem;
+    padding: 2rem;
+    padding-bottom: 0.5rem;
 }
 
 .item {
