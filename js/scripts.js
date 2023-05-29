@@ -140,24 +140,28 @@ function init() {
     }
 
     items.forEach((item, index) => {
-        item.addEventListener("click", async (e) => {
+        item.addEventListener("click", (e) => {
             e.preventDefault();
             currentItem = index;
-
-            await loadImage(e.target.closest("a").href);
-
-            lightbox.classList.add("active");
-            lightboxImage.src = e.target.closest("a").href;
-            lightboxImage.alt = e.target.closest("img").alt;
-
-            document.getElementById("image-counter").innerText = `${
-                currentItem + 1
-            } / ${items.length}`;
-
-            updateTitleAndDescription(currentItem);
-
-            lightbox.style.display = "flex";
-            gsap.fromTo(lightboxImage, {scale: 0}, {scale: 1, duration: 1});
+    
+            loadImage(e.target.closest("a").href)
+                .then(() => {
+                    lightbox.classList.add("active");
+                    lightboxImage.src = e.target.closest("a").href;
+                    lightboxImage.alt = e.target.closest("img").alt;
+            
+                    document.getElementById("image-counter").innerText = `${
+                        currentItem + 1
+                    } / ${items.length}`;
+            
+                    updateTitleAndDescription(currentItem);
+            
+                    lightbox.style.display = "flex";
+                    gsap.fromTo(lightboxImage, {scale: 0}, {scale: 1, duration: 1});
+                })
+                .catch(error => {
+                    console.error(`Error loading image: ${error}`);
+                });
         });
     });
 
@@ -192,14 +196,18 @@ function init() {
 
     function closeLightbox() {
         if (document.fullscreenElement) {
-            document.exitFullscreen();
+            document.exitFullscreen().catch((err) => {
+                console.error(
+                    `Error attempting to exit full-screen mode: ${err.message} (${err.name})`
+                );
+            });
         }
         lightbox.style.display = "none";
         items[currentItem].focus();
     }
 
     function changeImage(direction) {
-        resetImageAndAnimation(); // Add this line here to reset the image before changing the source
+        resetImageAndAnimation();
         currentItem = (currentItem + direction + items.length) % items.length;
         lightboxImage.src = items[currentItem].querySelector("a").href;
         updateTitleAndDescription(currentItem);
@@ -282,29 +290,32 @@ function init() {
         gsap.to(lightboxImage, {scaleY: scaleY, duration: 1});
     });
 
-    function toggleFullscreen() {
-        if (!document.fullscreenElement) {
-            lightbox.requestFullscreen().catch((err) => {
-                console.error(
-                    `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
-                );
-            });
-        } else {
-            document.exitFullscreen();
+    async function toggleFullscreen() {
+        try {
+            if (!document.fullscreenElement) {
+                await lightbox.requestFullscreen();
+            } else {
+                await document.exitFullscreen();
+            }
+        } catch (err) {
+            console.error(
+                `Error attempting to toggle full-screen mode: ${err.message} (${err.name})`
+            );
         }
     }
-
-    fullscreenBtn.addEventListener("click", toggleFullscreen);
-
+    
+    fullscreenBtn.addEventListener("click", () => {
+        toggleFullscreen().catch(err => console.error(err));
+    });
+    
     document.addEventListener("fullscreenchange", () => {
         const icon = fullscreenBtn.querySelector("i");
-        if (document.fullscreenElement) {
-            icon.classList.remove("fa-expand");
-            icon.classList.add("fa-compress");
-        } else {
-            icon.classList.remove("fa-compress");
-            icon.classList.add("fa-expand");
-        }
+        const [addClass, removeClass] = document.fullscreenElement
+            ? ["fa-compress", "fa-expand"]
+            : ["fa-expand", "fa-compress"];
+    
+        icon.classList.remove(removeClass);
+        icon.classList.add(addClass);
     });
 
     const SCALE_INCREMENT = 0.1;

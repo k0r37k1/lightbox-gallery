@@ -1,6 +1,6 @@
 body {
   background-color: rgb(12, 11, 19);
-  font-family: "Roboto", "Roboto Mono", mono;
+  font-family: "Roboto Mono", monospace;
   color: rgb(255, 255, 255);
   margin: 0;
   padding-bottom: 2rem;
@@ -56,7 +56,7 @@ h1.gallery-title {
 }
 
 .figure-caption {
-  font-family: "Roboto", "Roboto Mono", mono;
+  font-family: "Roboto Mono", monospace;
   padding: 5px 10px;
   background-color: rgba(128, 255, 189, 0.8);
   color: rgb(255, 255, 255);
@@ -144,7 +144,7 @@ h1.gallery-title {
 }
 
 #lightbox-title {
-  font-family: "Roboto", "Roboto Mono", mono;
+  font-family: "Roboto Mono", monospace;
   font-size: 1rem;
   font-weight: bold;
   color: rgb(255, 255, 255);
@@ -154,7 +154,7 @@ h1.gallery-title {
 }
 
 #lightbox-description {
-  font-family: "Roboto", "Roboto Mono", mono;
+  font-family: "Roboto Mono", monospace;
   font-size: 0.8rem;
   color: rgb(255, 255, 255);
   margin: 0.5rem 0 0;
@@ -163,7 +163,7 @@ h1.gallery-title {
 }
 
 #image-counter {
-  font-family: "Roboto", "Roboto Mono", mono;
+  font-family: "Roboto Mono", monospace;
   color: rgb(255, 255, 255);
   font-size: 1rem;
   text-align: center;
