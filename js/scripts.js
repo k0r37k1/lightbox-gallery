@@ -55,6 +55,7 @@ function init() {
   const lightboxImage = document.getElementById("lightbox-image");
   const closeBtn = Button("close", "Close lightbox");
   const prevBtn = Button("prev", "Previous image");
+  const printBtn = Button("print", "Print image");
   const nextBtn = Button("next", "Next image");
   const fullscreenBtn = Button("fullscreen", "Toggle fullscreen");
   const flipVerticalBtn = Button("flip-vertical", "Flip image vertically");
@@ -84,6 +85,7 @@ function init() {
   const buttons = [
     closeBtn,
     prevBtn,
+    printBtn,
     nextBtn,
     fullscreenBtn,
     flipVerticalBtn,
@@ -277,6 +279,8 @@ function init() {
 
   prevBtn.addEventListener("click", () => animateImage(-1));
   nextBtn.addEventListener("click", () => animateImage(1));
+  printBtn.addEventListener("click", printImage);
+  buttons.push(printBtn);
   closeBtn.addEventListener("click", () => {
     gsap.to(lightboxImage, { scale: 0, duration: 1 });
     setTimeout(() => {
@@ -485,6 +489,19 @@ items.forEach((item) => {
     timeline.reverse();
   });
 });
+
+function printImage() {
+  const lightboxImage = document.getElementById("lightbox-image");
+
+  const printWindow = window.open("", "_blank");
+  const printDocument = printWindow.document;
+
+  printDocument.write(`<img src="${lightboxImage.src}" style="max-width: 100%; max-height: 100%;">`);
+  printDocument.close();
+
+  printWindow.print();
+  printWindow.close();
+}
 
 function protectImages() {
   ["contextmenu", "dragstart"].forEach((eventType) => {
