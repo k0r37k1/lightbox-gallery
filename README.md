@@ -19,7 +19,7 @@ This Lightbox Gallery Script is powered by GPT-4 and built on Bootstrap 5.3, CSS
 - Image protection
 - Accessibility features
 - Animations with GSAP 3 library
-- Image operations: Rotate, flip, prev, next
+- Image operations: Rotate, flip, prev, next, print
 
 **Planned Future Enhancements:**
 
