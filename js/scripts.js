@@ -1,6 +1,6 @@
 function init() {
-  const grid = document.querySelector(".grid");
-  const msnry = new Masonry(".grid", {
+  const grid = document.querySelector('.grid');
+  const msnry = new Masonry('.grid', {
     itemSelector: ".item",
     columnWidth: ".grid-sizer",
     percentPosition: true,
@@ -492,15 +492,21 @@ items.forEach((item) => {
 
 function printImage() {
   const lightboxImage = document.getElementById("lightbox-image");
-
+  
   const printWindow = window.open("", "_blank");
   const printDocument = printWindow.document;
 
-  printDocument.write(`<img src="${lightboxImage.src}" style="max-width: 100%; max-height: 100%;">`);
-  printDocument.close();
+  const printImageElement = printDocument.createElement("img");
+  printImageElement.src = lightboxImage.src;
+  printImageElement.style.maxWidth = "100%";
+  printImageElement.style.maxHeight = "100%";
 
-  printWindow.print();
-  printWindow.close();
+  printImageElement.addEventListener("load", function () {
+    printWindow.print();
+    printWindow.close();
+  });
+
+  printDocument.body.appendChild(printImageElement);
 }
 
 function protectImages() {
