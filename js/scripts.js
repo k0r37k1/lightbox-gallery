@@ -1,6 +1,6 @@
 function init() {
-  const grid = document.querySelector('.grid');
-  const msnry = new Masonry('.grid', {
+  const grid = document.querySelector(".grid");
+  const msnry = new Masonry(".grid", {
     itemSelector: ".item",
     columnWidth: ".grid-sizer",
     percentPosition: true,
@@ -492,7 +492,7 @@ items.forEach((item) => {
 
 function printImage() {
   const lightboxImage = document.getElementById("lightbox-image");
-  
+
   const printWindow = window.open("", "_blank");
   const printDocument = printWindow.document;
 
@@ -503,6 +503,11 @@ function printImage() {
 
   printImageElement.addEventListener("load", function () {
     printWindow.print();
+    printWindow.close();
+  });
+
+  printImageElement.addEventListener("error", function () {
+    console.error("Failed to load image for printing.");
     printWindow.close();
   });
 
