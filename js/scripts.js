@@ -493,6 +493,11 @@ items.forEach((item) => {
 function printImage() {
   const lightboxImage = document.getElementById("lightbox-image");
 
+  if (!lightboxImage) {
+    console.error("Lightbox image not found.");
+    return;
+  }
+
   const printWindow = window.open("", "_blank");
   const printDocument = printWindow.document;
 
@@ -502,7 +507,9 @@ function printImage() {
   printImageElement.style.maxHeight = "100%";
 
   printImageElement.addEventListener("load", function () {
-    printWindow.print();
+    if (!printWindow.print()) {
+      console.warn("Failed to trigger automatic printing.");
+    }
     printWindow.close();
   });
 
@@ -514,14 +521,20 @@ function printImage() {
   printDocument.body.appendChild(printImageElement);
 }
 
+
 function protectImages() {
-  ["contextmenu", "dragstart"].forEach((eventType) => {
-    document.addEventListener(eventType, (event) => {
-      if (event.target.tagName === "IMG") event.preventDefault();
+  const images = document.getElementsByTagName("img");
+  Array.from(images).forEach((img) => {
+    img.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+    });
+    img.addEventListener("dragstart", (event) => {
+      event.preventDefault();
     });
   });
 }
 
 protectImages();
+
 
 init();
