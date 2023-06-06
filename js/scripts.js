@@ -103,9 +103,13 @@ function init() {
     button.addEventListener("click", (event) => event.stopPropagation());
   });
 
+  const SCALE_INCREMENT = 0.1;
+  const MIN_SCALE = 0.5;
+  const MAX_SCALE = 3;
+  
   const items = document.querySelectorAll(".item");
   let currentItem;
-
+  
   let scale = 1;
   let isMoving = false;
   let mouseX, mouseY;
@@ -113,29 +117,130 @@ function init() {
   let translateY = 0;
   let initialPinchDistance = 0;
   let initialScale = 1;
-
-  function adjustImageSize() {
-    const windowHeight = window.innerHeight;
-    const windowWidth = window.innerWidth;
-    const imgHeight = lightboxImage.naturalHeight;
-    const imgWidth = lightboxImage.naturalWidth;
-
-    const scaleFactor = Math.min(
-      windowHeight / imgHeight,
-      windowWidth / imgWidth
-    );
-
-    if (scaleFactor < 1) {
-      lightboxImage.style.height = `${imgHeight * scaleFactor}px`;
-      lightboxImage.style.width = `${imgWidth * scaleFactor}px`;
-    } else {
-      lightboxImage.style.height = "100%";
-      lightboxImage.style.width = "100%";
+  
+  function handleKeyDown(e) {
+    if (lightbox.style.display === "none") return;
+    if (e.key === "Escape") {
+      closeLightbox();
+    } else if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
+      changeImage(-1);
+    } else if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
+      changeImage(1);
+    } else if (e.key === "+" || e.key === "=") {
+      scale = Math.min(MAX_SCALE, scale + SCALE_INCREMENT);
+      transformImage();
+    } else if (e.key === "-" || e.key === "_") {
+      scale = Math.max(MIN_SCALE, scale - SCALE_INCREMENT);
+      transformImage();
+    } else if (e.key === "0") {
+      resetImageAndAnimation();
     }
   }
-
-  lightboxImage.addEventListener("load", adjustImageSize);
-
+  
+  function handleMouseDown(e) {
+    isMoving = true;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  }
+  
+  function handleMouseMove(e) {
+    if (isMoving) {
+      requestAnimationFrame(() => {
+        translateX += e.clientX - mouseX;
+        translateY += e.clientY - mouseY;
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        transformImage();
+      });
+    }
+  }
+  
+  function handleMouseUp() {
+    isMoving = false;
+  }
+  
+  function handleTouchStart(e) {
+    if (e.touches.length === 1) {
+      isMoving = true;
+      mouseX = e.touches[0].clientX;
+      mouseY = e.touches[0].clientY;
+      e.target.setAttribute("aria-grabbed", "true");
+    } else if (e.touches.length === 2) {
+      isMoving = false;
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      initialPinchDistance = Math.sqrt(dx * dx + dy * dy);
+      initialScale = scale;
+    }
+  }
+  
+  function handleTouchMove(e) {
+    e.preventDefault();
+    if (e.touches.length === 1 && isMoving) {
+      const deltaX = e.touches[0].clientX - mouseX;
+      const deltaY = e.touches[0].clientY - mouseY;
+      if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        // Swipe
+        if (deltaX > 50) {
+          changeImage(-1);
+          isMoving = false;
+        } else if (deltaX < -50) {
+          changeImage(1);
+          isMoving = false;
+        }
+      } else {
+        // Move image
+        translateX += deltaX;
+        translateY += deltaY;
+        mouseX = e.touches[0].clientX;
+        mouseY = e.touches[0].clientY;
+        transformImage();
+      }
+    } else if (e.touches.length === 2) {
+      // Pinch-to-Zoom
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      scale = initialScale * (distance / initialPinchDistance);
+      scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
+      transformImage();
+    }
+  }
+  
+  function handleTouchEnd(e) {
+    e.target.setAttribute("aria-grabbed", "false");
+    if (e.touches.length === 0) {
+      isMoving = false;
+      if (e.changedTouches.length === 1) {
+        const dx = e.changedTouches[0].clientX - mouseX;
+        const dy = e.changedTouches[0].clientY - mouseY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < 5) {
+          closeLightbox();
+        }
+      }
+    }
+  }
+  
+  function handleWheel(e) {
+    e.preventDefault();
+    if (e.deltaY < 0) {
+      scale = Math.min(MAX_SCALE, scale + SCALE_INCREMENT);
+    } else {
+      scale = Math.max(MIN_SCALE, scale - SCALE_INCREMENT);
+    }
+    transformImage();
+  }
+  
+  window.addEventListener("keydown", handleKeyDown);
+  lightboxImage.addEventListener("mousedown", handleMouseDown);
+  lightboxImage.addEventListener("mousemove", handleMouseMove);
+  lightboxImage.addEventListener("mouseup", handleMouseUp);
+  lightboxImage.addEventListener("touchstart", handleTouchStart);
+  lightboxImage.addEventListener("touchmove", handleTouchMove);
+  lightboxImage.addEventListener("touchend", handleTouchEnd);
+  lightboxImage.addEventListener("wheel", handleWheel);
+  
   async function loadImage(src) {
     return new Promise((resolve, reject) => {
       lightboxImage.src = src;
@@ -156,9 +261,8 @@ function init() {
           lightboxImage.src = e.target.closest("a").href;
           lightboxImage.alt = e.target.closest("img").alt;
 
-          document.getElementById("image-counter").innerText = `${
-            currentItem + 1
-          } / ${items.length}`;
+          document.getElementById("image-counter").innerText = `${currentItem + 1
+            } / ${items.length}`;
 
           updateTitleAndDescription(currentItem);
 
@@ -217,9 +321,8 @@ function init() {
     currentItem = (currentItem + direction + items.length) % items.length;
     lightboxImage.src = items[currentItem].querySelector("a").href;
     updateTitleAndDescription(currentItem);
-    document.getElementById("image-counter").innerText = `${
-      currentItem + 1
-    } / ${items.length}`;
+    document.getElementById("image-counter").innerText = `${currentItem + 1
+      } / ${items.length}`;
   }
 
   function resetImageAndAnimation() {
@@ -340,124 +443,6 @@ function init() {
     icon.classList.remove(removeClass);
     icon.classList.add(addClass);
   });
-
-  const SCALE_INCREMENT = 0.1;
-  const MIN_SCALE = 0.5;
-  const MAX_SCALE = 3;
-
-  window.addEventListener("keydown", (e) => {
-    if (lightbox.style.display === "none") return;
-    if (e.key === "Escape") {
-      closeLightbox();
-    } else if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
-      changeImage(-1);
-    } else if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
-      changeImage(1);
-    } else if (e.key === "+" || e.key === "=") {
-      scale = Math.min(MAX_SCALE, scale + SCALE_INCREMENT);
-      transformImage();
-    } else if (e.key === "-" || e.key === "_") {
-      scale = Math.max(MIN_SCALE, scale - SCALE_INCREMENT);
-      transformImage();
-    } else if (e.key === "0") {
-      resetImageAndAnimation();
-    }
-  });
-
-  lightboxImage.addEventListener("mousedown", (e) => {
-    isMoving = true;
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  lightboxImage.addEventListener("mousemove", (e) => {
-    if (isMoving) {
-      requestAnimationFrame(() => {
-        translateX += e.clientX - mouseX;
-        translateY += e.clientY - mouseY;
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        transformImage();
-      });
-    }
-  });
-
-  lightboxImage.addEventListener("mouseup", () => {
-    isMoving = false;
-  });
-
-  lightboxImage.addEventListener("touchstart", (e) => {
-    if (e.touches.length === 1) {
-      isMoving = true;
-      mouseX = e.touches[0].clientX;
-      mouseY = e.touches[0].clientY;
-      e.target.setAttribute("aria-grabbed", "true");
-    } else if (e.touches.length === 2) {
-      isMoving = false;
-      const dx = e.touches[0].clientX - e.touches[1].clientX;
-      const dy = e.touches[0].clientY - e.touches[1].clientY;
-      initialPinchDistance = Math.sqrt(dx * dx + dy * dy);
-      initialScale = scale;
-    }
-  });
-
-  lightboxImage.addEventListener("touchmove", (e) => {
-    e.preventDefault();
-    if (e.touches.length === 1 && isMoving) {
-      const deltaX = e.touches[0].clientX - mouseX;
-      const deltaY = e.touches[0].clientY - mouseY;
-      if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        // Swipe
-        if (deltaX > 50) {
-          changeImage(-1);
-          isMoving = false;
-        } else if (deltaX < -50) {
-          changeImage(1);
-          isMoving = false;
-        }
-      } else {
-        // Move image
-        translateX += deltaX;
-        translateY += deltaY;
-        mouseX = e.touches[0].clientX;
-        mouseY = e.touches[0].clientY;
-        transformImage();
-      }
-    } else if (e.touches.length === 2) {
-      // Pinch-to-Zoom
-      const dx = e.touches[0].clientX - e.touches[1].clientX;
-      const dy = e.touches[0].clientY - e.touches[1].clientY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      scale = initialScale * (distance / initialPinchDistance);
-      scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
-      transformImage();
-    }
-  });
-
-  lightboxImage.addEventListener("touchend", (e) => {
-    e.target.setAttribute("aria-grabbed", "false");
-    if (e.touches.length === 0) {
-      isMoving = false;
-      if (e.changedTouches.length === 1) {
-        const dx = e.changedTouches[0].clientX - mouseX;
-        const dy = e.changedTouches[0].clientY - mouseY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < 5) {
-          closeLightbox();
-        }
-      }
-    }
-  });
-
-  lightboxImage.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    if (e.deltaY < 0) {
-      scale = Math.min(MAX_SCALE, scale + SCALE_INCREMENT);
-    } else {
-      scale = Math.max(MIN_SCALE, scale - SCALE_INCREMENT);
-    }
-    transformImage();
-  });
 }
 
 const items = document.querySelectorAll(".item");
@@ -521,7 +506,6 @@ function printImage() {
   printDocument.body.appendChild(printImageElement);
 }
 
-
 function protectImages() {
   const images = document.getElementsByTagName("img");
   Array.from(images).forEach((img) => {
@@ -535,6 +519,5 @@ function protectImages() {
 }
 
 protectImages();
-
 
 init();
