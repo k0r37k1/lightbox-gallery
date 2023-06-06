@@ -59,10 +59,7 @@ function init() {
   const nextBtn = Button("next", "Next image");
   const fullscreenBtn = Button("fullscreen", "Toggle fullscreen");
   const flipVerticalBtn = Button("flip-vertical", "Flip image vertically");
-  const flipHorizontalBtn = Button(
-    "flip-horizontal",
-    "Flip image horizontally"
-  );
+  const flipHorizontalBtn = Button("flip-horizontal", "Flip image horizontally");
   const rotateLeftBtn = Button("rotate-left", "Rotate image to the left");
   const rotateRightBtn = Button("rotate-right", "Rotate image to the right");
 
@@ -106,10 +103,10 @@ function init() {
   const SCALE_INCREMENT = 0.1;
   const MIN_SCALE = 0.5;
   const MAX_SCALE = 3;
-  
+
   const items = document.querySelectorAll(".item");
   let currentItem;
-  
+
   let scale = 1;
   let isMoving = false;
   let mouseX, mouseY;
@@ -117,7 +114,7 @@ function init() {
   let translateY = 0;
   let initialPinchDistance = 0;
   let initialScale = 1;
-  
+
   function handleKeyDown(e) {
     if (lightbox.style.display === "none") return;
     if (e.key === "Escape") {
@@ -136,13 +133,13 @@ function init() {
       resetImageAndAnimation();
     }
   }
-  
+
   function handleMouseDown(e) {
     isMoving = true;
     mouseX = e.clientX;
     mouseY = e.clientY;
   }
-  
+
   function handleMouseMove(e) {
     if (isMoving) {
       requestAnimationFrame(() => {
@@ -154,11 +151,11 @@ function init() {
       });
     }
   }
-  
+
   function handleMouseUp() {
     isMoving = false;
   }
-  
+
   function handleTouchStart(e) {
     if (e.touches.length === 1) {
       isMoving = true;
@@ -173,7 +170,7 @@ function init() {
       initialScale = scale;
     }
   }
-  
+
   function handleTouchMove(e) {
     e.preventDefault();
     if (e.touches.length === 1 && isMoving) {
@@ -206,7 +203,7 @@ function init() {
       transformImage();
     }
   }
-  
+
   function handleTouchEnd(e) {
     e.target.setAttribute("aria-grabbed", "false");
     if (e.touches.length === 0) {
@@ -221,7 +218,7 @@ function init() {
       }
     }
   }
-  
+
   function handleWheel(e) {
     e.preventDefault();
     if (e.deltaY < 0) {
@@ -231,7 +228,7 @@ function init() {
     }
     transformImage();
   }
-  
+
   window.addEventListener("keydown", handleKeyDown);
   lightboxImage.addEventListener("mousedown", handleMouseDown);
   lightboxImage.addEventListener("mousemove", handleMouseMove);
@@ -240,7 +237,7 @@ function init() {
   lightboxImage.addEventListener("touchmove", handleTouchMove);
   lightboxImage.addEventListener("touchend", handleTouchEnd);
   lightboxImage.addEventListener("wheel", handleWheel);
-  
+
   async function loadImage(src) {
     return new Promise((resolve, reject) => {
       lightboxImage.src = src;
@@ -261,8 +258,9 @@ function init() {
           lightboxImage.src = e.target.closest("a").href;
           lightboxImage.alt = e.target.closest("img").alt;
 
-          document.getElementById("image-counter").innerText = `${currentItem + 1
-            } / ${items.length}`;
+          document.getElementById("image-counter").innerText = `${
+            currentItem + 1
+          } / ${items.length}`;
 
           updateTitleAndDescription(currentItem);
 
@@ -321,8 +319,9 @@ function init() {
     currentItem = (currentItem + direction + items.length) % items.length;
     lightboxImage.src = items[currentItem].querySelector("a").href;
     updateTitleAndDescription(currentItem);
-    document.getElementById("image-counter").innerText = `${currentItem + 1
-      } / ${items.length}`;
+    document.getElementById("image-counter").innerText = `${
+      currentItem + 1
+    } / ${items.length}`;
   }
 
   function resetImageAndAnimation() {
