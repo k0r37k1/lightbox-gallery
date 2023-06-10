@@ -1,0 +1,34 @@
+# ignore files
+.DS_Store
+Thumbs.db
+
+# ignore editor directories
+.idea/
+.vscode/
+
+# ignore build directories
+build/
+dist/
+out/
+
+# ignore eleventy files
+package-lock.json
+
+# ignore jekyll build directory
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# ignore hugo build directory
+/public/
+/resources/_gen/
+/assets/jsconfig.json
+hugo_stats.json
+
+# ignore node directories
+node_modules/
+
+# ignore composer vendor directory
+vendor/
+.bundle/
