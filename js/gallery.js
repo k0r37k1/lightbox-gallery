@@ -445,34 +445,33 @@ function init() {
   }
   
   const items = document.querySelectorAll(".item");
-  
-  items.forEach((item) => {
-    const img = item.querySelector("img");
-    const caption = item.querySelector(".figure-caption");
-  
-    const timeline = gsap.timeline({ paused: true });
-  
-    timeline
-      .to(img, {
-        scale: 2,
-        rotate: 10,
-        boxShadow: "0px 0px 10px 2px rgba(0,0,0,0.5)",
-        duration: 0.5,
-      })
-      .fromTo(
-        caption,
-        { yPercent: 100, opacity: 0 },
-        { yPercent: 0, opacity: 1, duration: 1 }
-      );
-  
-    item.addEventListener("mouseover", () => {
-      timeline.play();
-    });
-  
-    item.addEventListener("mouseout", () => {
-      timeline.reverse();
-    });
+
+items.forEach((item) => {
+  const img = item.querySelector("img");
+  const caption = item.querySelector(".figure-caption");
+
+  const timeline = gsap.timeline({ paused: true });
+
+  timeline
+    .to(img, {
+      scale: 2,
+      boxShadow: "0px 0px 10px 2px rgba(0,0,0,0.5)",
+      duration: 0.5,
+    })
+    .fromTo(
+      caption,
+      { yPercent: 100, opacity: 0 },
+      { yPercent: 0, opacity: 1, duration: 1 }
+    );
+
+  item.addEventListener("mouseover", () => {
+    timeline.play();
   });
+
+  item.addEventListener("mouseout", () => {
+    timeline.reverse();
+  });
+});
   
   function printImage() {
     const lightboxImage = document.getElementById("lightbox-image");
