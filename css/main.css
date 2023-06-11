@@ -1,28 +1,24 @@
 body {
-  background-color: rgb(12, 11, 19);
-  font-family: "Roboto Mono", monospace;
-  color: rgb(255, 255, 255);
-  margin: 0;
-  padding-bottom: 2rem;
+  background-color: rgba(29, 30, 38, 1);
+  font-family: 'Fira Code', monospace;
 }
 
 h1.gallery-title {
-  font-size: 2.5rem;
-  font-weight: bold;
   margin: 1rem 0 1rem;
   text-align: center;
-  color: rgb(255, 255, 255);
+  font-family: 'Fira Code', monospace;
+  font-weight: 500;
+  font-size: 2.5rem;
+  color: rgba(248, 248, 242, 1);
 }
 
 .container {
-  background-color: rgb(27, 37, 51);
+  background-color: rgba(42, 44, 55, 1);
   border-radius: 0.5rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
   padding: 2rem;
   padding-bottom: 0.5rem;
 }
-
-
 
 @media (max-width: 992px) {
   h1.gallery-title {

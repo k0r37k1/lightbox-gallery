@@ -1,0 +1,53 @@
+@import "main.css";
+@import "gallery.css";
+
+:root {
+  --background-color-dark: rgba(29, 30, 38, 1);
+  --background-color-gray: rgba(42, 44, 55, 1);
+  --current-line-color: rgba(40, 42, 54, 1);
+  --selection-color: rgba(47, 49, 61, 1);
+  --foreground-color: rgba(248, 248, 242, 1);
+  --comment-color: rgba(98, 114, 164, 1);
+  --cyan-color: rgba(139, 233, 253, 1);
+  --green-color: rgba(80, 250, 123, 1);
+  --orange-color: rgba(255, 184, 108, 1);
+  --pink-color: rgba(255, 121, 198, 1);
+  --purple-color: rgba(189, 147, 249, 1);
+  --red-color: rgba(255, 85, 85, 1);
+  --yellow-color: rgba(241, 250, 140, 1);
+}
+
+@font-face {
+  font-family: 'Fira Code';
+  src: url('../css/fonts/FiraCode-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Fira Code';
+  src: url('../css/fonts/FiraCode-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Fira Code';
+  src: url('../css/fonts/FiraCode-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Fira Code';
+  src: url('../css/fonts/FiraCode-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Fira Code';
+  src: url('../css/fonts/FiraCode-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}

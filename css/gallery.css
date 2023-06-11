@@ -32,10 +32,10 @@
   }
   
   .figure-caption {
-    font-family: "Roboto Mono", monospace;
+    font-family: 'Fira Code', monospace;
     padding: 5px 10px;
-    background-color: rgba(128, 255, 189, 0.8);
-    color: rgb(255, 255, 255);
+    background-color: rgba(80, 250, 123, 1);
+    color: rgba(248, 248, 242, 1);
     opacity: 0;
     z-index: 1000;
     pointer-events: none;
@@ -88,9 +88,9 @@
   }
   
   .lightbox .icon {
-    border: 2px solid rgb(255, 255, 255);
+    border: 2px solid rgba(248, 248, 242, 1);
     border-radius: 50%;
-    color: rgb(255, 255, 255);
+    color: rgba(248, 248, 242, 1);
     cursor: pointer;
     font-size: 1.5rem;
     height: 2.5rem;
@@ -116,27 +116,27 @@
   }
   
   #lightbox-title {
-    font-family: "Roboto Mono", monospace;
+    font-family: 'Fira Code', monospace;
     font-size: 1rem;
-    font-weight: bold;
-    color: rgb(255, 255, 255);
+    font-weight: 600;
+    color: rgba(248, 248, 242, 1);
     margin: 0;
     padding: 0;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   }
   
   #lightbox-description {
-    font-family: "Roboto Mono", monospace;
+    font-family: 'Fira Code', monospace;
     font-size: 0.8rem;
-    color: rgb(255, 255, 255);
+    color: rgba(248, 248, 242, 1);
     margin: 0.5rem 0 0;
     padding: 0;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   }
   
   #image-counter {
-    font-family: "Roboto Mono", monospace;
-    color: rgb(255, 255, 255);
+    font-family: 'Fira Code', monospace;
+    color: rgba(248, 248, 242, 1);
     font-size: 1rem;
     text-align: center;
     position: absolute;
