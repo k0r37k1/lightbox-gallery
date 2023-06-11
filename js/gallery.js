@@ -464,7 +464,7 @@ items.forEach((item) => {
 
   timeline
     .to(img, {
-      scale: 2,
+      scale: 1.5,
       boxShadow: "0px 0px 10px 2px rgba(0,0,0,0.5)",
       duration: 0.5,
     })
