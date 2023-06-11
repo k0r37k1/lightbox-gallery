@@ -240,38 +240,48 @@ function init() {
   
     async function loadImage(src) {
       return new Promise((resolve, reject) => {
-        lightboxImage.src = src;
-        lightboxImage.onload = () => resolve();
-        lightboxImage.onerror = () =>
+        let img = new Image();
+        img.src = src;
+        img.onload = () => resolve(img);
+        img.onerror = () =>
           reject(new Error(`Failed to load image: ${src}`));
       });
     }
   
-    items.forEach((item, index) => {
-      item.addEventListener("click", (e) => {
+  async function handleItemClick(e, index) {
+      e.preventDefault();
+      currentItem = index;
+      let highResSrc = e.target.closest("a").href;
+      let thumbSrc = e.target.src;
+  
+      // show the thumbnail first
+      lightboxImage.src = thumbSrc;
+      lightboxImage.alt = e.target.alt;
+  
+      lightbox.classList.add("active");
+      document.getElementById("image-counter").innerText = `${
+        currentItem + 1
+      } / ${items.length}`;
+      updateTitleAndDescription(currentItem);
+      lightbox.style.display = "flex";
+      gsap.fromTo(lightboxImage, { scale: 0 }, { scale: 1, duration: 1 });
+  
+      // load high-res image in the background
+      try {
+          let highResImage = await loadImage(highResSrc);
+          // replace the thumbnail with high-res image
+          lightboxImage.src = highResImage.src;
+      } catch (error) {
+          console.error(error);
+      }
+  }
+  
+  items.forEach((item, index) => {
+    item.addEventListener("click", (e) => {
         e.preventDefault();
-        currentItem = index;
-  
-        loadImage(e.target.closest("a").href)
-          .then(() => {
-            lightbox.classList.add("active");
-            lightboxImage.src = e.target.closest("a").href;
-            lightboxImage.alt = e.target.closest("img").alt;
-  
-            document.getElementById("image-counter").innerText = `${
-              currentItem + 1
-            } / ${items.length}`;
-  
-            updateTitleAndDescription(currentItem);
-  
-            lightbox.style.display = "flex";
-            gsap.fromTo(lightboxImage, { scale: 0 }, { scale: 1, duration: 1 });
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      });
+        handleItemClick(e, index).catch(error => console.error(error));
     });
+});
   
     function updateTitleAndDescription(index) {
       const item = items[index];
