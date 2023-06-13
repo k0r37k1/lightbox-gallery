@@ -71,6 +71,21 @@ h1.gallery-title {
   padding-bottom: 0.5rem;
 }
 
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: rgba(248, 248, 242, 1);
+  text-align: center;
+  padding: 10px 0;
+}
+
+a {
+  color: rgba(248, 248, 242, 1);
+  text-decoration: none;
+}
+
 .item {
   cursor: pointer;
   overflow: hidden;
