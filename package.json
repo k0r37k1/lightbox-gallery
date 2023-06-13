@@ -2,9 +2,9 @@
   "name": "lightbox-gallery",
   "version": "1.0.0",
   "description": "This Lightbox Gallery Script is powered by GPT-4 and built on Bootstrap 5.3, CSS3, HTML5, modern JS, GSAP 3 and uses the Masonry.js/ImageLoaded.js by David DeSandro,",
-  "main": "src/index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon src/index.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",

@@ -1,48 +1,33 @@
-# ignore system files
+# Ignore system files
 .DS_Store
 Thumbs.db
 
-# ignore log files
+# Ignore log files
 *.log
 
-# ignore environment variables
+# Ignore environment variables
 .env
 
-# ignore mapping files
+# Ignore mapping files
 *.css.map
 *.html.map
 
-# ignore sass cache
+# Ignore sass cache
 .sass-cache
 
-# ignore editor directories
+# Ignore editor directories
 .idea/
 .vscode/
 
-# ignore build directories
-build/
-dist/
-out/
-
-# ignore eleventy files
+# Ignore package-lock.json
 package-lock.json
-.cache
 
-# ignore jekyll build directory
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
+# Ignore server.js
+server.js
 
-# ignore hugo build directory
-/public/
-/resources/_gen/
-/assets/jsconfig.json
-hugo_stats.json
+# Ignore IDE specific directories
+.idea/
+.vscode/
 
-# ignore node directories
+# Ignore node_modules
 node_modules/
-
-# ignore composer vendor directory
-vendor/
-.bundle/
