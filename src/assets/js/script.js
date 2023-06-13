@@ -18,26 +18,26 @@ function init() {
     rootMargin: "0px 0px 50px 0px",
     threshold: 0,
   };
-  
+
   function createObserver() {
     return new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const img = entry.target;
-  
+
           img.src = img.dataset.src;
           img.removeAttribute("data-src");
-  
+
           observer.unobserve(img);
         }
       });
     }, observerOptions);
   }
-  
+
   function lazyLoadImages() {
     const images = document.querySelectorAll("img[data-src]");
     const imgObserver = createObserver();
-  
+
     images.forEach((img) => {
       if ("IntersectionObserver" in window) {
         imgObserver.observe(img);
@@ -47,7 +47,7 @@ function init() {
       }
     });
   }
-  
+
   if ("requestIdleCallback" in window) {
     window.addEventListener("requestIdleCallback", lazyLoadImages);
   } else {
@@ -253,6 +253,28 @@ function init() {
       img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
     });
   }
+
+  function setImageLink(linkElement) {
+    const imageSrc = linkElement.getAttribute("data-src");
+
+    loadImage(imageSrc)
+      .then(() => {
+        linkElement.href = imageSrc;
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  }
+
+  function setImageLinks() {
+    const linkElements = document.querySelectorAll(".imageLink");
+
+    for (const linkElement of linkElements) {
+      setImageLink(linkElement);
+    }
+  }
+
+  setImageLinks();
 
   async function handleItemClick(e, index) {
     e.preventDefault();
@@ -464,7 +486,7 @@ items.forEach((item) => {
     .to(img, {
       scale: 1.25,
       boxShadow: "0px 0px 10px 2px rgba(0,0,0,0.5)",
-      duration: 0.5
+      duration: 0.5,
     })
     .fromTo(
       caption,
