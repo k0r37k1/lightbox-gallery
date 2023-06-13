@@ -1,33 +1,9 @@
-# Ignore system files
-.DS_Store
-Thumbs.db
-
-# Ignore log files
+/node_modules
+/package-lock.json
+/server.js
+/.idea
+/.vscode
 *.log
-
-# Ignore environment variables
+.DS_Store
+dist/
 .env
-
-# Ignore mapping files
-*.css.map
-*.html.map
-
-# Ignore sass cache
-.sass-cache
-
-# Ignore editor directories
-.idea/
-.vscode/
-
-# Ignore package-lock.json
-package-lock.json
-
-# Ignore server.js
-server.js
-
-# Ignore IDE specific directories
-.idea/
-.vscode/
-
-# Ignore node_modules
-node_modules/
