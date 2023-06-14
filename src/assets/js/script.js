@@ -291,11 +291,12 @@ function init() {
 
     updateTitleAndDescription(currentItem);
 
-    gsap.fromTo(lightboxImage, { scale: 0 }, { scale: 1, duration: 1 });
+    gsap.fromTo(lightboxImage, { scale: 0, rotation: 20 }, { scale: 1, rotation: 0, duration: 1.5, ease: "elastic.out(1, 0.3)" });
 
     const highResImage = await loadImage(highResSrc);
     lightboxImage.src = highResImage.src;
   }
+
 
   items.forEach((item, index) => {
     item.addEventListener("click", (e) => {
@@ -422,11 +423,11 @@ function init() {
   printBtn.addEventListener("click", printImage);
   buttons.push(printBtn);
   closeBtn.addEventListener("click", () => {
-    gsap.to(lightboxImage, { scale: 0, duration: 1 });
+    gsap.to(lightboxImage, { scale: 0, rotation: -20, duration: 1.5, ease: "elastic.in(1, 0.3)" });
     setTimeout(() => {
       closeLightbox();
       resetImageAndAnimation();
-    }, 1000);
+    }, 1500);
   });
   rotateRightBtn.addEventListener("click", () => {
     rotation += 90;
