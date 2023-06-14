@@ -15,49 +15,49 @@
 }
 
 @font-face {
-  font-family: 'Fira Code';
-  src: url('../src/assets/fonts/FiraCode-Regular.ttf') format('truetype');
+  font-family: "Fira Code";
+  src: url("../src/assets/fonts/FiraCode-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Fira Code';
-  src: url('../src/assets/fonts/FiraCode-Light.ttf') format('truetype');
+  font-family: "Fira Code";
+  src: url("../src/assets/fonts/FiraCode-Light.ttf") format("truetype");
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Fira Code';
-  src: url('../src/assets/fonts/FiraCode-Medium.ttf') format('truetype');
+  font-family: "Fira Code";
+  src: url("../src/assets/fonts/FiraCode-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Fira Code';
-  src: url('../src/assets/fonts/FiraCode-Bold.ttf') format('truetype');
+  font-family: "Fira Code";
+  src: url("../src/assets/fonts/FiraCode-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Fira Code';
-  src: url('../src/assets/fonts/FiraCode-SemiBold.ttf') format('truetype');
+  font-family: "Fira Code";
+  src: url("../src/assets/fonts/FiraCode-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
 }
 
 body {
   background-color: rgba(36, 32, 46, 1);
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
 }
 
 h1.title {
   margin: 1rem 0 1rem;
   text-align: center;
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
   font-weight: bold;
   font-size: 2.5rem;
   color: rgba(80, 250, 123, 1);
@@ -84,7 +84,7 @@ footer {
 }
 
 a {
-  color: rgba(80, 250, 123, 1);
+  color: rgba(255, 184, 108, 1);
   text-decoration: none;
 }
 
@@ -216,7 +216,7 @@ a {
 }
 
 #lightbox-title {
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
   font-size: 1rem;
   font-weight: 600;
   color: rgba(248, 248, 242, 1);
@@ -226,7 +226,7 @@ a {
 }
 
 #lightbox-description {
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
   font-size: 0.8rem;
   color: rgba(248, 248, 242, 1);
   margin: 0.5rem 0 0;
@@ -235,7 +235,7 @@ a {
 }
 
 #image-counter {
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
   color: rgba(248, 248, 242, 1);
   font-size: 1rem;
   text-align: center;

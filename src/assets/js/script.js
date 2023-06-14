@@ -193,7 +193,7 @@ function init() {
           isMoving = false;
         }
       } else {
-        // Move image
+
         translateX += deltaX;
         translateY += deltaY;
         mouseX = e.touches[0].clientX;
@@ -201,7 +201,7 @@ function init() {
         transformImage();
       }
     } else if (e.touches.length === 2) {
-      // Pinch-to-Zoom
+
       const dx = e.touches[0].clientX - e.touches[1].clientX;
       const dy = e.touches[0].clientY - e.touches[1].clientY;
       const distance = Math.sqrt(dx * dx + dy * dy);
@@ -488,23 +488,49 @@ const defaultConfig = {
 
 function getItemConfig(item) {
   return {
-    overlayDuration: item.getAttribute('data-overlay-duration') || defaultConfig.overlayDuration,
-    overlayEase: item.getAttribute('data-overlay-ease') || defaultConfig.overlayEase,
-    captionDuration: item.getAttribute('data-caption-duration') || defaultConfig.captionDuration,
-    captionEase: item.getAttribute('data-caption-ease') || defaultConfig.captionEase,
+    overlayDuration:
+      item.getAttribute("data-overlay-duration") ||
+      defaultConfig.overlayDuration,
+    overlayEase:
+      item.getAttribute("data-overlay-ease") || defaultConfig.overlayEase,
+    captionDuration:
+      item.getAttribute("data-caption-duration") ||
+      defaultConfig.captionDuration,
+    captionEase:
+      item.getAttribute("data-caption-ease") || defaultConfig.captionEase,
   };
 }
 
 function animateOverlay(timeline, overlay, config) {
-  return timeline.to(overlay, { autoAlpha: 0, duration: config.overlayDuration, ease: config.overlayEase });
+  return timeline.to(overlay, {
+    autoAlpha: 0,
+    duration: config.overlayDuration,
+    ease: config.overlayEase,
+  });
 }
 
 function animateImage(timeline, img, config) {
-  return timeline.to(img, { scale: defaultConfig.scale, duration: config.overlayDuration, ease: config.overlayEase }, 0);
+  return timeline.to(
+    img,
+    {
+      scale: defaultConfig.scale,
+      duration: config.overlayDuration,
+      ease: config.overlayEase,
+    },
+    0
+  );
 }
 
 function animateCaption(timeline, caption, config) {
-  return timeline.to(caption, { autoAlpha: 0, duration: config.captionDuration, ease: config.captionEase }, `-=${config.overlayDuration}`);
+  return timeline.to(
+    caption,
+    {
+      autoAlpha: 0,
+      duration: config.captionDuration,
+      ease: config.captionEase,
+    },
+    `-=${config.overlayDuration}`
+  );
 }
 
 items.forEach((item) => {
