@@ -476,34 +476,57 @@ function init() {
 
 const items = document.querySelectorAll(".item");
 
-function createTimeline(item) {
-  const overlay = item.querySelector(".overlay");
-  const caption = item.querySelector(".figure-caption");
+const defaultConfig = {
+  overlayDuration: 1.5,
+  overlayEase: "power2.out",
+  captionDuration: 0.5,
+  captionEase: "power2.out",
+  scale: 1.1,
+  mouseoverScale: 1,
+  mouseoutScale: 2,
+};
 
-  const overlayDuration = item.getAttribute('data-overlay-duration') || 1.5;
-  const overlayEase = item.getAttribute('data-overlay-ease') || "power2.out";
-  const captionDuration = item.getAttribute('data-caption-duration') || 0.5;
-  const captionEase = item.getAttribute('data-caption-ease') || "power2.out";
+function getItemConfig(item) {
+  return {
+    overlayDuration: item.getAttribute('data-overlay-duration') || defaultConfig.overlayDuration,
+    overlayEase: item.getAttribute('data-overlay-ease') || defaultConfig.overlayEase,
+    captionDuration: item.getAttribute('data-caption-duration') || defaultConfig.captionDuration,
+    captionEase: item.getAttribute('data-caption-ease') || defaultConfig.captionEase,
+  };
+}
 
-  const timeline = gsap.timeline({ paused: true, reversed: true });
+function animateOverlay(timeline, overlay, config) {
+  return timeline.to(overlay, { autoAlpha: 0, duration: config.overlayDuration, ease: config.overlayEase });
+}
 
-  timeline
-    .to(overlay, { autoAlpha: 0, duration: overlayDuration, ease: overlayEase })
-    .to(caption, { autoAlpha: 0, duration: captionDuration, ease: captionEase }, `-= ${overlayDuration}`); 
+function animateImage(timeline, img, config) {
+  return timeline.to(img, { scale: defaultConfig.scale, duration: config.overlayDuration, ease: config.overlayEase }, 0);
+}
 
-  return timeline;
+function animateCaption(timeline, caption, config) {
+  return timeline.to(caption, { autoAlpha: 0, duration: config.captionDuration, ease: config.captionEase }, `-=${config.overlayDuration}`);
 }
 
 items.forEach((item) => {
-  const timeline = createTimeline(item); 
+  const config = getItemConfig(item);
+
+  const overlay = item.querySelector(".overlay");
+  const caption = item.querySelector(".figure-caption");
+  const img = item.querySelector("img");
+
+  const timeline = gsap.timeline({ paused: true, reversed: true });
+
+  animateOverlay(timeline, overlay, config);
+  animateImage(timeline, img, config);
+  animateCaption(timeline, caption, config);
 
   item.addEventListener("mouseover", () => {
-    timeline.timeScale(1);
+    timeline.timeScale(defaultConfig.mouseoverScale);
     timeline.play();
   });
 
   item.addEventListener("mouseout", () => {
-    timeline.timeScale(2);
+    timeline.timeScale(defaultConfig.mouseoutScale);
     timeline.reverse();
   });
 });
