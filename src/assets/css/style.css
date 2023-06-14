@@ -50,25 +50,26 @@
 }
 
 body {
-  background-color: rgba(29, 30, 38, 1);
+  background-color: rgba(36, 32, 46, 1);
   font-family: 'Fira Code', monospace;
 }
 
-h1.gallery-title {
+h1.title {
   margin: 1rem 0 1rem;
   text-align: center;
   font-family: 'Fira Code', monospace;
-  font-weight: 500;
+  font-weight: bold;
   font-size: 2.5rem;
-  color: rgba(248, 248, 242, 1);
+  color: rgba(80, 250, 123, 1);
 }
 
 .container {
-  background-color: rgba(42, 44, 55, 1);
+  background-color: rgba(29, 30, 38, 1);
   border-radius: 0.5rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
   padding: 2rem;
   padding-bottom: 0.5rem;
+  border: 3px solid rgba(189, 147, 249, 1);
 }
 
 footer {
@@ -82,7 +83,7 @@ footer {
 }
 
 a {
-  color: rgba(248, 248, 242, 1);
+  color: rgba(80, 250, 123, 1);
   text-decoration: none;
 }
 
@@ -122,7 +123,7 @@ a {
 .figure-caption {
   font-family: 'Fira Code', monospace;
   padding: 5px 10px;
-  background-color: rgba(80, 250, 123, 1);
+  background-color: rgba(189, 147, 249, 1);
   color: rgba(248, 248, 242, 1);
   opacity: 0;
   z-index: 1000;
