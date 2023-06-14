@@ -476,29 +476,34 @@ function init() {
 
 const items = document.querySelectorAll(".item");
 
-items.forEach((item) => {
-  const img = item.querySelector("img");
+function createTimeline(item) {
+  const overlay = item.querySelector(".overlay");
   const caption = item.querySelector(".figure-caption");
 
-  const timeline = gsap.timeline({ paused: true });
+  const overlayDuration = item.getAttribute('data-overlay-duration') || 1.5;
+  const overlayEase = item.getAttribute('data-overlay-ease') || "power2.out";
+  const captionDuration = item.getAttribute('data-caption-duration') || 0.5;
+  const captionEase = item.getAttribute('data-caption-ease') || "power2.out";
+
+  const timeline = gsap.timeline({ paused: true, reversed: true });
 
   timeline
-    .to(img, {
-      scale: 1.25,
-      boxShadow: "0px 0px 10px 2px rgba(0,0,0,0.5)",
-      duration: 0.5,
-    })
-    .fromTo(
-      caption,
-      { yPercent: 100, opacity: 0 },
-      { yPercent: 0, opacity: 1, duration: 1 }
-    );
+    .to(overlay, { autoAlpha: 0, duration: overlayDuration, ease: overlayEase })
+    .to(caption, { autoAlpha: 0, duration: captionDuration, ease: captionEase }, `-= ${overlayDuration}`); 
+
+  return timeline;
+}
+
+items.forEach((item) => {
+  const timeline = createTimeline(item); 
 
   item.addEventListener("mouseover", () => {
+    timeline.timeScale(1);
     timeline.play();
   });
 
   item.addEventListener("mouseout", () => {
+    timeline.timeScale(2);
     timeline.reverse();
   });
 });

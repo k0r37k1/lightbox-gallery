@@ -121,16 +121,26 @@ a {
   align-items: flex-end;
 }
 
+.overlay {
+  background: rgba(25, 23, 38, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+}
+
 .figure-caption {
-  font-family: 'Fira Code', monospace;
-  padding: 5px 10px;
-  background-color: rgba(189, 147, 249, 1);
-  color: rgba(248, 248, 242, 1);
-  opacity: 0;
-  z-index: 1000;
-  pointer-events: none;
-  width: 100%;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 121, 198, 1);
+  opacity: 1;
+  z-index: 3;
+  font-size: 15px;
+  transition: all 0.5s;
 }
 
 .lightbox {
