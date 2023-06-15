@@ -59,7 +59,10 @@ function init() {
   const nextBtn = Button("next", "Next image");
   const fullscreenBtn = Button("fullscreen", "Toggle fullscreen");
   const flipVerticalBtn = Button("flip-vertical", "Flip image vertically");
-  const flipHorizontalBtn = Button("flip-horizontal", "Flip image horizontally");
+  const flipHorizontalBtn = Button(
+    "flip-horizontal",
+    "Flip image horizontally"
+  );
   const rotateLeftBtn = Button("rotate-left", "Rotate image to the left");
   const rotateRightBtn = Button("rotate-right", "Rotate image to the right");
 
@@ -131,6 +134,24 @@ function init() {
       transformImage();
     } else if (e.key === "0") {
       resetImageAndAnimation();
+    } else if (e.key === "r") {
+      rotation += 90;
+      gsap.to(lightboxImage, { rotation: rotation, duration: 1 });
+    } else if (e.key === "R") {
+      rotation -= 90;
+      gsap.to(lightboxImage, { rotation: rotation, duration: 1 });
+    } else if (e.key === "f") {
+      scaleX *= -1;
+      gsap.to(lightboxImage, { scaleX: scaleX, duration: 1 });
+    } else if (e.key === "F") {
+      scaleY *= -1;
+      gsap.to(lightboxImage, { scaleY: scaleY, duration: 1 });
+    } else if (e.key === "p" || e.key === "P") {
+      printImage();
+    } else if (e.key === "F11") {
+      toggleFullscreen().catch((err) => {
+        console.error(`Error toggling fullscreen: ${err.message}`);
+      });
     }
   }
 
@@ -339,6 +360,54 @@ function init() {
     document.getElementById("image-counter").innerText = counter;
   }
 
+  let rotation = 0;
+  let scaleX = 1;
+  let scaleY = 1;
+  let xPercent;
+
+  prevBtn.addEventListener("click", () => {
+    changeImage(-1);
+  });
+
+  nextBtn.addEventListener("click", () => {
+    changeImage(1);
+  });
+  printBtn.addEventListener("click", printImage);
+  buttons.push(printBtn);
+  closeBtn.addEventListener("click", () => {
+    gsap.to(lightboxImage, {
+      scale: 0,
+      rotation: -20,
+      duration: 1.5,
+      ease: "elastic.in(1, 0.3)",
+    });
+    setTimeout(() => {
+      closeLightbox();
+      resetImageAndAnimation();
+    }, 1500);
+  });
+  rotateRightBtn.addEventListener("click", () => {
+    rotation += 90;
+    gsap.to(lightboxImage, { rotation: rotation, duration: 1 });
+  });
+  rotateLeftBtn.addEventListener("click", () => {
+    rotation -= 90;
+    gsap.to(lightboxImage, { rotation: rotation, duration: 1 });
+  });
+  flipHorizontalBtn.addEventListener("click", () => {
+    scaleX *= -1;
+    gsap.to(lightboxImage, { scaleX: scaleX, duration: 1 });
+  });
+  flipVerticalBtn.addEventListener("click", () => {
+    scaleY *= -1;
+    gsap.to(lightboxImage, { scaleY: scaleY, duration: 1 });
+  });
+  fullscreenBtn.addEventListener("click", () => {
+    toggleFullscreen().catch((err) => {
+      console.error(`Error toggling fullscreen: ${err.message}`);
+    });
+  });
+
   function changeImage(direction) {
     resetImageAndAnimation();
     currentItem = (currentItem + direction + items.length) % items.length;
@@ -348,6 +417,20 @@ function init() {
     document.getElementById("image-counter").innerText = `${
       currentItem + 1
     } / ${items.length}`;
+
+    xPercent = 100 * direction;
+    gsap.to(lightboxImage, {
+      xPercent,
+      opacity: 0,
+      duration: 1,
+      onComplete: () => {
+        gsap.fromTo(
+          lightboxImage,
+          { xPercent: -xPercent, opacity: 0 },
+          { xPercent: 0, opacity: 1, duration: 1 }
+        );
+      },
+    });
   }
 
   function resetImageAndAnimation() {
@@ -387,94 +470,11 @@ function init() {
     });
   }
 
-  let rotation = 0;
-  let scaleX = 1;
-  let scaleY = 1;
-  let direction;
-  let xPercent;
-
-  prevBtn.addEventListener("click", () => {
-    direction = -1;
-    xPercent = 100 * direction;
-
-    resetImageAndAnimation();
-
-    gsap.to(lightboxImage, {
-      xPercent,
-      opacity: 0,
-      duration: 1,
-      onComplete: () => {
-        changeImage(direction);
-        gsap.fromTo(
-          lightboxImage,
-          { xPercent: -xPercent, opacity: 0 },
-          { xPercent: 0, opacity: 1, duration: 1 }
-        );
-      },
-    });
-  });
-  nextBtn.addEventListener("click", () => {
-    direction = 1;
-    xPercent = 100 * direction;
-
-    resetImageAndAnimation();
-
-    gsap.to(lightboxImage, {
-      xPercent,
-      opacity: 0,
-      duration: 1,
-      onComplete: () => {
-        changeImage(direction);
-        gsap.fromTo(
-          lightboxImage,
-          { xPercent: -xPercent, opacity: 0 },
-          { xPercent: 0, opacity: 1, duration: 1 }
-        );
-      },
-    });
-  });
-  printBtn.addEventListener("click", printImage);
-  buttons.push(printBtn);
-  closeBtn.addEventListener("click", () => {
-    gsap.to(lightboxImage, {
-      scale: 0,
-      rotation: -20,
-      duration: 1.5,
-      ease: "elastic.in(1, 0.3)",
-    });
-    setTimeout(() => {
-      closeLightbox();
-      resetImageAndAnimation();
-    }, 1500);
-  });
-  rotateRightBtn.addEventListener("click", () => {
-    rotation += 90;
-    gsap.to(lightboxImage, { rotation: rotation, duration: 1 });
-  });
-  rotateLeftBtn.addEventListener("click", () => {
-    rotation -= 90;
-    gsap.to(lightboxImage, { rotation: rotation, duration: 1 });
-  });
-  flipHorizontalBtn.addEventListener("click", () => {
-    scaleX *= -1;
-    gsap.to(lightboxImage, { scaleX: scaleX, duration: 1 });
-  });
-  flipVerticalBtn.addEventListener("click", () => {
-    scaleY *= -1;
-    gsap.to(lightboxImage, { scaleY: scaleY, duration: 1 });
-  });
-
   function toggleFullscreen() {
     return document.fullscreenElement
       ? document.exitFullscreen()
       : lightbox.requestFullscreen();
   }
-
-  fullscreenBtn.addEventListener("click", () => {
-    toggleFullscreen().catch((err) => {
-      console.error(`Error toggling fullscreen: ${err.message}`);
-    });
-  });
 
   document.addEventListener("fullscreenchange", () => {
     const icon = fullscreenBtn.querySelector("i");
