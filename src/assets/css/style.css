@@ -83,13 +83,9 @@ footer {
   color: rgba(248, 248, 242, 1);
   text-align: center;
   padding: 10px 0;
-<<<<<<< HEAD
   background-color: rgba(21, 19, 32, 1);
   z-index: 2;
-=======
   background-color: rgba(21, 19, 32, 1)
-  margin-top: 1rem;
->>>>>>> 84ed509e4c775419e48202a4c739129d5e118e95
 }
 
 a {
