@@ -80,7 +80,8 @@ footer {
   color: rgba(248, 248, 242, 1);
   text-align: center;
   padding: 10px 0;
-  background-color: rgba(21, 19, 32, 1);
+  background-color: rgba(21, 19, 32, 1)
+  margin-top: 1rem;
 }
 
 a {
