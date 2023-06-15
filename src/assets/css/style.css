@@ -1,3 +1,5 @@
+@import url('https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css');
+
 :root {
   --background-color-dark: rgba(29, 30, 38, 1);
   --background-color-gray: rgba(42, 44, 55, 1);
@@ -12,41 +14,6 @@
   --purple-color: rgba(189, 147, 249, 1);
   --red-color: rgba(255, 85, 85, 1);
   --yellow-color: rgba(241, 250, 140, 1);
-}
-
-@font-face {
-  font-family: "Fira Code";
-  src: url("./src/assets/fonts/FiraCode-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Fira Code";
-  src: url("./src/assets/fonts/FiraCode-Light.ttf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Fira Code";
-  src: url("./src/assets/fonts/FiraCode-Medium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Fira Code";
-  src: url("./src/assets/fonts/FiraCode-Bold.ttf") format("truetype");
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Fira Code";
-  src: url("../src/assets/fonts/FiraCode-SemiBold.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
 }
 
 body {
