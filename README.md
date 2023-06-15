@@ -8,11 +8,11 @@ This Lightbox Gallery Script is powered by GPT-4 and built on Bootstrap 5.3, CSS
 
 - Responsive design
 - Lightbox functionality
-- Enhanced Keyboard navigation 
+- Enhanced Keyboard navigation WIP
 - Pan-Zoom feature
 - Enhanced Touch gesture support
 - Masonry layout
-- Integration with Bootstrap
+- Integration with Bootstrap 5.3
 - Lazy loading
 - Fullscreen mode
 - Captions & Image counter
@@ -24,8 +24,10 @@ This Lightbox Gallery Script is powered by GPT-4 and built on Bootstrap 5.3, CSS
 **Planned Future Enhancements:**
 
 - 'Load more..' function (For Masonry Layout)
-- Imagearray.js (For outsourcing Images and Code)
+- ImageArray.js (For outsourcing Images and Code)
 - Video support
 - Virtual slide
 
 Stay tuned for more upcoming feature updates.
+
+## _powered by the MIT License_
