@@ -19,25 +19,21 @@ function init() {
     threshold: 0,
   };
 
-  function createObserver() {
-    return new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
+  const imgObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
 
-          img.src = img.dataset.src;
-          img.removeAttribute("data-src");
+        img.src = img.dataset.src;
+        img.removeAttribute("data-src");
 
-          observer.unobserve(img);
-        }
-      });
-    }, observerOptions);
-  }
+        observer.unobserve(img);
+      }
+    });
+  }, observerOptions);
 
-  function lazyLoadImages() {
+  function observeImages() {
     const images = document.querySelectorAll("img[data-src]");
-    const imgObserver = createObserver();
-
     images.forEach((img) => {
       if ("IntersectionObserver" in window) {
         imgObserver.observe(img);
@@ -48,11 +44,11 @@ function init() {
     });
   }
 
-  if ("requestIdleCallback" in window) {
-    window.addEventListener("requestIdleCallback", lazyLoadImages);
-  } else {
-    window.addEventListener("DOMContentLoaded", lazyLoadImages);
-  }
+  const eventName =
+    "requestIdleCallback" in window
+      ? "requestIdleCallback"
+      : "DOMContentLoaded";
+  window.addEventListener(eventName, observeImages);
 
   const imageWrapper = document.getElementById("image-wrapper");
   const lightbox = document.getElementById("lightbox");
@@ -63,10 +59,7 @@ function init() {
   const nextBtn = Button("next", "Next image");
   const fullscreenBtn = Button("fullscreen", "Toggle fullscreen");
   const flipVerticalBtn = Button("flip-vertical", "Flip image vertically");
-  const flipHorizontalBtn = Button(
-    "flip-horizontal",
-    "Flip image horizontally"
-  );
+  const flipHorizontalBtn = Button("flip-horizontal", "Flip image horizontally");
   const rotateLeftBtn = Button("rotate-left", "Rotate image to the left");
   const rotateRightBtn = Button("rotate-right", "Rotate image to the right");
 
@@ -394,30 +387,52 @@ function init() {
     });
   }
 
-  function animateImage(direction) {
+  let rotation = 0;
+  let scaleX = 1;
+  let scaleY = 1;
+  let direction;
+  let xPercent;
+
+  prevBtn.addEventListener("click", () => {
+    direction = -1;
+    xPercent = 100 * direction;
+
     resetImageAndAnimation();
 
     gsap.to(lightboxImage, {
-      xPercent: 100 * direction,
+      xPercent,
       opacity: 0,
       duration: 1,
       onComplete: () => {
         changeImage(direction);
         gsap.fromTo(
           lightboxImage,
-          { xPercent: -100 * direction, opacity: 0 },
+          { xPercent: -xPercent, opacity: 0 },
           { xPercent: 0, opacity: 1, duration: 1 }
         );
       },
     });
-  }
+  });
+  nextBtn.addEventListener("click", () => {
+    direction = 1;
+    xPercent = 100 * direction;
 
-  let rotation = 0;
-  let scaleX = 1;
-  let scaleY = 1;
+    resetImageAndAnimation();
 
-  prevBtn.addEventListener("click", () => animateImage(-1));
-  nextBtn.addEventListener("click", () => animateImage(1));
+    gsap.to(lightboxImage, {
+      xPercent,
+      opacity: 0,
+      duration: 1,
+      onComplete: () => {
+        changeImage(direction);
+        gsap.fromTo(
+          lightboxImage,
+          { xPercent: -xPercent, opacity: 0 },
+          { xPercent: 0, opacity: 1, duration: 1 }
+        );
+      },
+    });
+  });
   printBtn.addEventListener("click", printImage);
   buttons.push(printBtn);
   closeBtn.addEventListener("click", () => {
