@@ -193,7 +193,6 @@ function init() {
           isMoving = false;
         }
       } else {
-
         translateX += deltaX;
         translateY += deltaY;
         mouseX = e.touches[0].clientX;
@@ -201,7 +200,6 @@ function init() {
         transformImage();
       }
     } else if (e.touches.length === 2) {
-
       const dx = e.touches[0].clientX - e.touches[1].clientX;
       const dy = e.touches[0].clientY - e.touches[1].clientY;
       const distance = Math.sqrt(dx * dx + dy * dy);
@@ -291,38 +289,38 @@ function init() {
 
     updateTitleAndDescription(currentItem);
 
-    gsap.fromTo(lightboxImage, { scale: 0, rotation: 20 }, { scale: 1, rotation: 0, duration: 1.5, ease: "elastic.out(1, 0.3)" });
+    gsap.fromTo(
+      lightboxImage,
+      { scale: 0, rotation: 20 },
+      { scale: 1, rotation: 0, duration: 1.5, ease: "elastic.out(1, 0.3)" }
+    );
 
     const highResImage = await loadImage(highResSrc);
     lightboxImage.src = highResImage.src;
   }
 
+  function handleClick(e, index) {
+    e.preventDefault();
+    handleItemClick(e, index).catch(console.error);
+  }
 
   items.forEach((item, index) => {
-    item.addEventListener("click", (e) => {
-      e.preventDefault();
-      handleItemClick(e, index).catch(console.error);
-    });
+    item.addEventListener("click", (e) => handleClick(e, index));
   });
-
-  function updateElementContent(elementId, content) {
-    document.getElementById(elementId).textContent = content || "";
-  }
 
   function updateTitleAndDescription(index) {
     const imgElement = items[index].querySelector("img");
+    const title = document.getElementById("lightbox-title");
+    const description = document.getElementById("lightbox-description");
 
     const titleId = imgElement?.getAttribute("aria-labelledby");
-    updateElementContent(
-      "lightbox-title",
-      titleId && document.getElementById(titleId).textContent
-    );
-
     const descriptionId = imgElement?.getAttribute("aria-describedby");
-    updateElementContent(
-      "lightbox-description",
-      descriptionId && document.getElementById(descriptionId).textContent
-    );
+
+    title.textContent =
+      (titleId && document.getElementById(titleId).textContent) || "";
+    description.textContent =
+      (descriptionId && document.getElementById(descriptionId).textContent) ||
+      "";
 
     lightbox.setAttribute("aria-labelledby", "lightbox-title");
     lightbox.setAttribute("aria-describedby", "lightbox-description");
@@ -423,7 +421,12 @@ function init() {
   printBtn.addEventListener("click", printImage);
   buttons.push(printBtn);
   closeBtn.addEventListener("click", () => {
-    gsap.to(lightboxImage, { scale: 0, rotation: -20, duration: 1.5, ease: "elastic.in(1, 0.3)" });
+    gsap.to(lightboxImage, {
+      scale: 0,
+      rotation: -20,
+      duration: 1.5,
+      ease: "elastic.in(1, 0.3)",
+    });
     setTimeout(() => {
       closeLightbox();
       resetImageAndAnimation();
@@ -446,32 +449,22 @@ function init() {
     gsap.to(lightboxImage, { scaleY: scaleY, duration: 1 });
   });
 
-  async function toggleFullscreen() {
-    try {
-      if (!document.fullscreenElement) {
-        await lightbox.requestFullscreen();
-      } else {
-        await document.exitFullscreen();
-      }
-    } catch (err) {
-      console.error(
-        `Error attempting to toggle full-screen mode: ${err.message} (${err.name})`
-      );
-    }
+  function toggleFullscreen() {
+    return document.fullscreenElement
+      ? document.exitFullscreen()
+      : lightbox.requestFullscreen();
   }
 
   fullscreenBtn.addEventListener("click", () => {
-    toggleFullscreen().catch((err) => console.error(err));
+    toggleFullscreen().catch((err) => {
+      console.error(`Error toggling fullscreen: ${err.message}`);
+    });
   });
 
   document.addEventListener("fullscreenchange", () => {
     const icon = fullscreenBtn.querySelector("i");
-    const [addClass, removeClass] = document.fullscreenElement
-      ? ["fa-compress", "fa-expand"]
-      : ["fa-expand", "fa-compress"];
-
-    icon.classList.remove(removeClass);
-    icon.classList.add(addClass);
+    icon.classList.toggle("fa-expand", !document.fullscreenElement);
+    icon.classList.toggle("fa-compress", !!document.fullscreenElement);
   });
 }
 
@@ -502,35 +495,11 @@ function getItemConfig(item) {
   };
 }
 
-function animateOverlay(timeline, overlay, config) {
-  return timeline.to(overlay, {
-    autoAlpha: 0,
-    duration: config.overlayDuration,
-    ease: config.overlayEase,
-  });
-}
-
-function animateImage(timeline, img, config) {
+function animate(timeline, element, props, config) {
   return timeline.to(
-    img,
-    {
-      scale: defaultConfig.scale,
-      duration: config.overlayDuration,
-      ease: config.overlayEase,
-    },
+    element,
+    { ...props, duration: config.overlayDuration, ease: config.overlayEase },
     0
-  );
-}
-
-function animateCaption(timeline, caption, config) {
-  return timeline.to(
-    caption,
-    {
-      autoAlpha: 0,
-      duration: config.captionDuration,
-      ease: config.captionEase,
-    },
-    `-=${config.overlayDuration}`
   );
 }
 
@@ -543,19 +512,19 @@ items.forEach((item) => {
 
   const timeline = gsap.timeline({ paused: true, reversed: true });
 
-  animateOverlay(timeline, overlay, config);
-  animateImage(timeline, img, config);
-  animateCaption(timeline, caption, config);
+  animate(timeline, overlay, { autoAlpha: 0 }, config);
+  animate(timeline, img, { scale: defaultConfig.scale }, config);
+  animate(timeline, caption, { autoAlpha: 0 }, config);
 
-  item.addEventListener("mouseover", () => {
-    timeline.timeScale(defaultConfig.mouseoverScale);
-    timeline.play();
-  });
+  const handleMouseInOut = (isOver) => () => {
+    timeline.timeScale(
+      isOver ? defaultConfig.mouseoverScale : defaultConfig.mouseoutScale
+    );
+    isOver ? timeline.play() : timeline.reverse();
+  };
 
-  item.addEventListener("mouseout", () => {
-    timeline.timeScale(defaultConfig.mouseoutScale);
-    timeline.reverse();
-  });
+  item.addEventListener("mouseover", handleMouseInOut(true));
+  item.addEventListener("mouseout", handleMouseInOut(false));
 });
 
 function printImage() {
