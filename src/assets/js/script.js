@@ -14,41 +14,48 @@ function init() {
     msnry.layout();
   });
 
-  const observerOptions = {
-    rootMargin: "0px 0px 50px 0px",
-    threshold: 0,
-  };
-
-  const imgObserver = new IntersectionObserver((entries, observer) => {
+  function handleIntersection(entries, observer) {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const img = entry.target;
-
-        img.src = img.dataset.src;
-        img.removeAttribute("data-src");
-
-        observer.unobserve(img);
-      }
-    });
-  }, observerOptions);
-
-  function observeImages() {
-    const images = document.querySelectorAll("img[data-src]");
-    images.forEach((img) => {
-      if ("IntersectionObserver" in window) {
-        imgObserver.observe(img);
-      } else {
-        img.src = img.dataset.src;
-        img.removeAttribute("data-src");
-      }
+      if (!entry.isIntersecting) return;
+      const img = entry.target;
+      img.src = img.dataset.src;
+      img.removeAttribute("data-src");
+      observer.unobserve(img);
     });
   }
 
-  const eventName =
-    "requestIdleCallback" in window
-      ? "requestIdleCallback"
-      : "DOMContentLoaded";
-  window.addEventListener(eventName, observeImages);
+  function loadImageImmediately(img) {
+    img.src = img.dataset.src;
+    img.removeAttribute("data-src");
+  }
+
+  function loadImages() {
+    const imgOptions = {
+      rootMargin: "0px 0px 50px 0px",
+      threshold: 0,
+    };
+    const images = document.querySelectorAll("img[data-src]");
+
+    if ("IntersectionObserver" in window) {
+      const imgObserver = new IntersectionObserver(
+        handleIntersection,
+        imgOptions
+      );
+      images.forEach((img) => imgObserver.observe(img));
+    } else {
+      images.forEach(loadImageImmediately);
+    }
+  }
+
+  function startLazyLoadImages() {
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(loadImages);
+    } else {
+      loadImages();
+    }
+  }
+
+  startLazyLoadImages();
 
   const imageWrapper = document.getElementById("image-wrapper");
   const lightbox = document.getElementById("lightbox");
@@ -120,38 +127,60 @@ function init() {
 
   function handleKeyDown(e) {
     if (lightbox.style.display === "none") return;
-    if (e.key === "Escape") {
-      closeLightbox();
-    } else if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
-      changeImage(-1);
-    } else if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
-      changeImage(1);
-    } else if (e.key === "+" || e.key === "=") {
-      scale = Math.min(MAX_SCALE, scale + SCALE_INCREMENT);
-      transformImage();
-    } else if (e.key === "-" || e.key === "_") {
-      scale = Math.max(MIN_SCALE, scale - SCALE_INCREMENT);
-      transformImage();
-    } else if (e.key === "0") {
-      resetImageAndAnimation();
-    } else if (e.key === "r") {
-      rotation += 90;
-      gsap.to(lightboxImage, { rotation: rotation, duration: 1 });
-    } else if (e.key === "R") {
-      rotation -= 90;
-      gsap.to(lightboxImage, { rotation: rotation, duration: 1 });
-    } else if (e.key === "f") {
-      scaleX *= -1;
-      gsap.to(lightboxImage, { scaleX: scaleX, duration: 1 });
-    } else if (e.key === "F") {
-      scaleY *= -1;
-      gsap.to(lightboxImage, { scaleY: scaleY, duration: 1 });
-    } else if (e.key === "p" || e.key === "P") {
-      printImage();
-    } else if (e.key === "F11") {
-      toggleFullscreen().catch((err) => {
-        console.error(`Error toggling fullscreen: ${err.message}`);
-      });
+
+    const keysActionMap = {
+      Escape: closeLightbox,
+      ArrowLeft: () => changeImage(-1),
+      a: () => changeImage(-1),
+      A: () => changeImage(-1),
+      ArrowRight: () => changeImage(1),
+      d: () => changeImage(1),
+      D: () => changeImage(1),
+      "+": () => {
+        scale = Math.min(MAX_SCALE, scale + SCALE_INCREMENT);
+        transformImage();
+      },
+      "=": () => {
+        scale = Math.min(MAX_SCALE, scale + SCALE_INCREMENT);
+        transformImage();
+      },
+      "-": () => {
+        scale = Math.max(MIN_SCALE, scale - SCALE_INCREMENT);
+        transformImage();
+      },
+      _: () => {
+        scale = Math.max(MIN_SCALE, scale - SCALE_INCREMENT);
+        transformImage();
+      },
+      0: resetImageAndAnimation,
+      r: () => {
+        rotation += 90;
+        gsap.to(lightboxImage, { rotation: rotation, duration: 1 });
+      },
+      R: () => {
+        rotation -= 90;
+        gsap.to(lightboxImage, { rotation: rotation, duration: 1 });
+      },
+      f: () => {
+        scaleX *= -1;
+        gsap.to(lightboxImage, { scaleX: scaleX, duration: 1 });
+      },
+      F: () => {
+        scaleY *= -1;
+        gsap.to(lightboxImage, { scaleY: scaleY, duration: 1 });
+      },
+      p: printImage,
+      P: printImage,
+      F11: () => {
+        toggleFullscreen().catch((err) => {
+          console.error(`Error toggling fullscreen: ${err.message}`);
+        });
+      },
+    };
+
+    const action = keysActionMap[e.key];
+    if (action) {
+      action();
     }
   }
 
