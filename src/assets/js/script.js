@@ -200,10 +200,10 @@ function init() {
       if (Math.abs(deltaX) > Math.abs(deltaY)) {
         // Swipe
         if (deltaX > 50) {
-          changeImage(-1);
+          changeImage(1);
           isMoving = false;
         } else if (deltaX < -50) {
-          changeImage(1);
+          changeImage(-1);
           isMoving = false;
         }
       } else {
