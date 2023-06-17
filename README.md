@@ -29,5 +29,3 @@ This Lightbox Gallery Script is powered by GPT-4 and built on Bootstrap 5.3, CSS
 - Virtual slide
 
 Stay tuned for more upcoming feature updates.
-
-_powered by the MIT License_
