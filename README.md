@@ -23,7 +23,7 @@ This Lightbox Gallery Script is powered by GPT-4 and built on Bootstrap 5.3, CSS
 
 **Planned Future Enhancements:**
 
-- 'Load more..' function (for masonry layout)
+- 'Load more..' function
 - ImageArray.js (for outsourcing Images and Code)
 - Video support (using vlite.js Library)
 - Virtual slide
