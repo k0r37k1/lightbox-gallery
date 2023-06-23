@@ -1,15 +1,18 @@
 {
-  "name": "lightbox-gallery",
-  "version": "1.0.0",
-  "description": "This Lightbox Gallery Script is powered by GPT-4 and built on Bootstrap 5.3, CSS3, HTML5, modern JS, GSAP 3 and uses the Masonry.js/ImageLoaded.js by David DeSandro,",
-  "main": "server.js",
-  "scripts": {
-    "start": "nodemon server.js"
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/typography": "^0.5.9",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "name": "your-project-name",
+  "version": "1.0.0",
+  "description": "Description of your project",
+  "scripts": {
+    "build": "postcss src/assets/css/tailwind.css -o public/src/assets/css/tailwind.css"
+  },
   "dependencies": {
-    "express": "^4.18.2"
+    "postcss-cli": "^10.1.0"
   }
 }
