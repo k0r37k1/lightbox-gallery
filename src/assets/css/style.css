@@ -214,7 +214,7 @@ a {
   border: 0;
 }
 
-.navigation-container {
+.lightbox-controlpanel {
   position: absolute;
   top: 5%;
   left: 50%;
@@ -224,23 +224,28 @@ a {
   z-index: 1001;
 }
 
-.lightbox .navigation-container .icon {
+.lightbox .lightbox-controlpanel .icon {
   position: relative;
   top: auto;
   left: auto;
   transform: none;
 }
 
-.lightbox .prev {
+.lightbox-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
   left: 5%;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 5%;
 }
 
-.lightbox .next {
-  right: 5%;
-  top: 50%;
-  transform: translateY(-50%);
+.lightbox-navigation .prev,
+.lightbox-navigation .next {
+  position: static;
+  transform: none;
 }
 
 @media (max-width: 576px) {
