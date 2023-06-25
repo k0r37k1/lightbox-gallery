@@ -515,7 +515,7 @@ function init() {
 const items = document.querySelectorAll(".item");
 
 const defaultConfig = {
-  overlayDuration: 1.5,
+  overlayDuration: 0.5,
   overlayEase: "power2.out",
   captionDuration: 0.5,
   captionEase: "power2.out",
