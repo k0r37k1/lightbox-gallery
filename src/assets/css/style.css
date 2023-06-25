@@ -23,7 +23,6 @@ body {
 
 h1.title {
   margin: 1rem 0 1rem;
-  text-align: center;
   font-family: "Fira Code", monospace;
   font-weight: bold;
   font-size: 2.5rem;
@@ -61,15 +60,12 @@ a {
 
 .item {
   cursor: pointer;
-  overflow: hidden;
   position: relative;
   margin-bottom: 10px;
   box-sizing: border-box;
 }
 
 .item img {
-  border-radius: 0.25rem;
-  display: block;
   height: 100%;
   object-fit: cover;
   position: relative;
@@ -172,7 +168,7 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0.25rem;
+  margin: 10px 0;
 }
 
 #lightbox-info {
