@@ -25,7 +25,6 @@ body {
 
 h1.title {
   margin: 1rem 0;
-  font-family: var(--green-color);
   color: var(--green-color);
 }
 
