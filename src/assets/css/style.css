@@ -1,21 +1,21 @@
 @import url("https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css");
 
 :root {
-  --background-color-primary: rgba(21, 19, 32, 1);
-  --background-color-overlay: rgba(25, 23, 38, 1);
-  --background-color-secondary: rgba(29, 30, 38, 1);
-  --background-color-gray: rgba(36, 32, 46, 1);
-  --current-line-color: rgba(40, 42, 54, 1);
-  --selection-color: rgba(47, 49, 61, 1);
-  --white-color: rgba(248, 242, 220, 1);
-  --comment-color: rgba(80, 98, 144, 1);
-  --cyan-color: rgba(100, 200, 200, 1);
-  --green-color: rgba(80, 200, 80, 1);
-  --orange-color: rgba(255, 120, 0, 1);
-  --pink-color: rgba(200, 50, 120, 1);
-  --purple-color: rgba(160, 70, 190, 1);
-  --red-color: rgba(180, 0, 0, 1);
-  --yellow-color: rgba(220, 220, 50, 1);
+  --background-color-primary: rgba(15, 15, 25, 1);
+  --background-color-overlay: rgba(18, 18, 30, 1);
+  --background-color-secondary: rgba(22, 22, 35, 1);
+  --background-color-gray: rgba(26, 26, 40, 1);
+  --current-line-color: rgba(30, 30, 45, 1);
+  --selection-color: rgba(34, 34, 50, 1);
+  --white-color: rgba(239, 236, 220, 1);
+  --comment-color: rgba(80, 96, 139, 1);
+  --cyan-color: rgba(105, 202, 212, 1);
+  --green-color: rgba(90, 212, 100, 1);
+  --orange-color: rgba(250, 135, 30, 1);
+  --pink-color: rgba(222, 85, 145, 1);
+  --purple-color: rgba(165, 95, 210, 1);
+  --red-color: rgba(202, 40, 40, 1);
+  --yellow-color: rgba(227, 227, 80, 1);
 }
 
 body {
@@ -25,7 +25,7 @@ body {
 
 h1.title {
   margin: 1rem 0;
-  color: var(--green-color);
+  color: var(--cyan-color);
 }
 
 .container {
@@ -96,6 +96,7 @@ a {
   opacity: 1;
   z-index: 3;
   font-size: 1rem;
+  font-weight: 600;
   transition: all 0.5s;
 }
 
@@ -251,8 +252,8 @@ a {
 }
 
 .lightbox .icon:hover {
-  color: var(--purple-color);
-  border-color: var(--purple-color);
+  color: var(--pink-color);
+  border-color: var(--pink-color);
 }
 
 @media (max-width: 576px) {
