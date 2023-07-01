@@ -144,7 +144,8 @@ a {
 }
 
 .lightbox .icon {
-  border: 2px solid var(--white-color);
+  border: 2px solid;
+  border-color: var(--white-color);
   border-radius: 50%;
   color: var(--white-color);
   cursor: pointer;
@@ -247,6 +248,11 @@ a {
 .lightbox-navigation .next {
   position: static;
   transform: none;
+}
+
+.lightbox .icon:hover {
+  color: var(--purple-color);
+  border-color: var(--purple-color);
 }
 
 @media (max-width: 576px) {

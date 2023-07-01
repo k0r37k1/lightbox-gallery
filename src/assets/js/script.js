@@ -57,6 +57,7 @@ function init() {
 
   startLazyLoadImages();
 
+  const icons = document.querySelectorAll(".lightbox .icon");
   const imageWrapper = document.getElementById("image-wrapper");
   const lightbox = document.getElementById("lightbox");
   const lightboxImage = document.getElementById("lightbox-image");
@@ -183,6 +184,29 @@ function init() {
       action();
     }
   }
+
+  icons.forEach((icon) => {
+    let pulseAnimation;
+
+    icon.addEventListener("mouseover", function () {
+      pulseAnimation = gsap.to(this, {
+        scale: 1.1,
+        repeat: -1,
+        yoyo: true,
+        duration: 0.5,
+        ease: "power1.inOut",
+      });
+    });
+
+    icon.addEventListener("mouseout", function () {
+      pulseAnimation.pause();
+      gsap.to(this, {
+        scale: 1, // return to original size
+        duration: 0.5,
+        ease: "power1.inOut",
+      });
+    });
+  });
 
   function handleMouseDown(e) {
     isMoving = true;
