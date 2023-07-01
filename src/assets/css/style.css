@@ -1,58 +1,60 @@
 @import url("https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css");
 
 :root {
-  --background-color-dark: rgba(29, 30, 38, 1);
-  --background-color-gray: rgba(42, 44, 55, 1);
+  --background-color-primary: rgba(21, 19, 32, 1);
+  --background-color-overlay: rgba(25, 23, 38, 1);
+  --background-color-secondary: rgba(29, 30, 38, 1);
+  --background-color-gray: rgba(36, 32, 46, 1);
   --current-line-color: rgba(40, 42, 54, 1);
   --selection-color: rgba(47, 49, 61, 1);
-  --foreground-color: rgba(248, 248, 242, 1);
-  --comment-color: rgba(98, 114, 164, 1);
-  --cyan-color: rgba(139, 233, 253, 1);
-  --green-color: rgba(80, 250, 123, 1);
-  --orange-color: rgba(255, 184, 108, 1);
-  --pink-color: rgba(255, 121, 198, 1);
-  --purple-color: rgba(189, 147, 249, 1);
-  --red-color: rgba(255, 85, 85, 1);
-  --yellow-color: rgba(241, 250, 140, 1);
+  --white-color: rgba(248, 242, 220, 1);
+  --comment-color: rgba(80, 98, 144, 1);
+  --cyan-color: rgba(100, 200, 200, 1);
+  --green-color: rgba(80, 200, 80, 1);
+  --orange-color: rgba(255, 120, 0, 1);
+  --pink-color: rgba(200, 50, 120, 1);
+  --purple-color: rgba(160, 70, 190, 1);
+  --red-color: rgba(180, 0, 0, 1);
+  --yellow-color: rgba(220, 220, 50, 1);
 }
 
 body {
-  background-color: rgba(36, 32, 46, 1);
+  background-color: var(--background-color-overlay);
   font-family: "Fira Code", monospace;
 }
 
 h1.title {
   margin: 1rem 0;
-  font-family: "Fira Code", monospace;
-  color: rgba(80, 250, 123, 1);
+  font-family: var(--green-color);
+  color: var(--green-color);
 }
 
 .container {
-  background-color: rgba(21, 19, 32, 1);
+  background-color: var(--background-color-primary);
+  border: 3px solid var(--purple-color);
   border-radius: 0.5rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
   padding: 2rem;
   padding-bottom: 0.5rem;
-  border: 3px solid rgba(189, 147, 249, 1);
   position: relative;
   z-index: 1;
   margin: 1rem auto;
 }
 
 footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  color: rgba(248, 248, 242, 1);
+  color: var(--white-color);
   text-align: center;
   padding: 10px 0;
-  background-color: rgba(21, 19, 32, 1);
+  background-color: var(--background-color-primary);
   z-index: 2;
 }
 
 a {
-  color: rgba(255, 184, 108, 1);
+  color: var(--orange-color);
   text-decoration: none;
 }
 
@@ -77,7 +79,7 @@ a {
 }
 
 .overlay {
-  background: rgba(25, 23, 38, 1);
+  background: var(--background-color-overlay);
   position: absolute;
   top: 0;
   left: 0;
@@ -91,7 +93,7 @@ a {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: rgba(255, 121, 198, 1);
+  color: var(--pink-color);
   opacity: 1;
   z-index: 3;
   font-size: 1rem;
@@ -143,9 +145,9 @@ a {
 }
 
 .lightbox .icon {
-  border: 2px solid rgba(248, 248, 242, 1);
+  border: 2px solid var(--white-color);
   border-radius: 50%;
-  color: rgba(248, 248, 242, 1);
+  color: var(--white-color);
   cursor: pointer;
   font-size: 1.5rem;
   height: 2.5rem;
@@ -174,7 +176,7 @@ a {
   font-family: "Fira Code", monospace;
   font-size: 1rem;
   font-weight: 600;
-  color: rgba(248, 248, 242, 1);
+  color: var(--white-color);
   margin: 0;
   padding: 0;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -183,7 +185,7 @@ a {
 #lightbox-description {
   font-family: "Fira Code", monospace;
   font-size: 0.8rem;
-  color: rgba(248, 248, 242, 1);
+  color: var(--white-color);
   margin: 0.5rem 0 0;
   padding: 0;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -191,7 +193,7 @@ a {
 
 #image-counter {
   font-family: "Fira Code", monospace;
-  color: rgba(248, 248, 242, 1);
+  color: var(--white-color);
   font-size: 1rem;
   text-align: center;
   position: absolute;
