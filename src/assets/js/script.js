@@ -479,7 +479,7 @@ function init() {
     icon.addEventListener("mouseout", function () {
       pulseAnimation.pause();
       gsap.to(this, {
-        scale: 1, // return to original size
+        scale: 1,
         duration: 0.5,
         ease: "power1.inOut",
       });
@@ -641,3 +641,8 @@ function protectImages() {
 protectImages();
 
 init();
+
+// TODO:
+// [ ] Add a thumbnails carousel slider
+// [ ] Add automatic slideshow
+// [ ] Add video support
