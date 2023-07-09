@@ -10,7 +10,6 @@ function init() {
     originTop: true,
   });
 
-  // Recalculate the layout for every image load progress
   imagesLoaded(grid).on("progress", function () {
     msnry.layout();
   });
