@@ -29,5 +29,7 @@ This Lightbox Gallery Script is powered by GPT-4 and built on Bootstrap 5.3, CSS
 - Automatic slideshow
 - Thumbnail image carousel
 - Multilingual support
+- Light Theme
+- Dark/Light mode
 
 _Stay tuned for more upcoming feature updates._
