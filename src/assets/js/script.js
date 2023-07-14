@@ -641,8 +641,3 @@ function protectImages() {
 protectImages();
 
 init();
-
-// TODO:
-// [ ] Add a thumbnails carousel slider
-// [ ] Add automatic slideshow
-// [ ] Add video support

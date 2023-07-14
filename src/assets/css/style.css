@@ -1,4 +1,5 @@
 @import url("https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 
 :root {
   --background-color-primary: rgba(15, 15, 25, 1);
@@ -38,6 +39,7 @@ h1.title {
   position: relative;
   z-index: 1;
   margin: 1rem auto;
+  display: block;
 }
 
 footer {
@@ -155,7 +157,7 @@ a {
   line-height: 2.5rem;
   position: absolute;
   width: 2.5rem;
-  z-index: 10000;
+  z-index: 1001;
   display: flex;
   justify-content: center;
   align-items: center;
