@@ -10,7 +10,7 @@
   --selection-color: rgba(34, 34, 50, 1);
   --white-color: rgba(239, 236, 220, 1);
   --comment-color: rgba(80, 96, 139, 1);
-  --cyan-color: rgba(105, 202, 212, 1);
+  --cyan-color: rgb(105, 202, 212);
   --green-color: rgba(90, 212, 100, 1);
   --orange-color: rgba(250, 135, 30, 1);
   --pink-color: rgba(222, 85, 145, 1);
