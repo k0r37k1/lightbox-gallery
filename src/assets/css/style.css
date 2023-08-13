@@ -10,24 +10,27 @@
   --background-color-gray: rgba(26, 26, 40, 1);
   --current-line-color: rgba(30, 30, 45, 1);
   --selection-color: rgba(34, 34, 50, 1);
-  --white-color: rgba(239, 236, 220, 1);
+  --white-color: rgb(239, 236, 220);
   --comment-color: rgba(80, 96, 139, 1);
   --cyan-color: rgb(105, 202, 212);
   --green-color: rgba(90, 212, 100, 1);
   --orange-color: rgba(250, 135, 30, 1);
   --pink-color: rgba(222, 85, 145, 1);
   --purple-color: rgba(165, 95, 210, 1);
-  --red-color: rgba(202, 40, 40, 1);
+  --red-color: rgb(202, 40, 40);
   --yellow-color: rgba(227, 227, 80, 1);
 }
 
 body {
   background-color: var(--background-color-overlay);
-  font-family: "Fira Code", monospace;
+  font-family: "Lato", sans-serif;
 }
 
 h1.title {
-  margin: 1rem 0;
+  font-family: "Lato", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 1.5rem 0;
   color: var(--green-color);
 }
 
@@ -66,6 +69,7 @@ a {
   position: relative;
   margin-bottom: 10px;
   box-sizing: border-box;
+  font-family: "Inconsolata", monospace;
 }
 
 .item img {

@@ -1,6 +1,6 @@
 function init() {
   const grid = document.querySelector(".grid");
-  const msnry = new Masonry(".grid", {
+  const msnry = new Masonry(grid, {
     itemSelector: ".item",
     columnWidth: ".grid-sizer",
     percentPosition: true,
@@ -17,45 +17,51 @@ function init() {
   function handleIntersection(entries, observer) {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
-      const img = entry.target;
-      img.src = img.dataset.src;
-      img.removeAttribute("data-src");
-      observer.unobserve(img);
+      loadImageFromData(entry.target);
+      observer.unobserve(entry.target);
     });
   }
 
-  function loadImageImmediately(img) {
-    img.src = img.dataset.src;
-    img.removeAttribute("data-src");
-  }
-
-  function loadImages() {
+  function setupImageObservationUsingIntersectionObserver(images) {
     const imgOptions = {
       rootMargin: "0px 0px 50px 0px",
       threshold: 0,
     };
-    const images = document.querySelectorAll("img[data-src]");
+    const imgObserver = new IntersectionObserver(
+      handleIntersection,
+      imgOptions
+    );
+    images.forEach((img) => imgObserver.observe(img));
+  }
 
-    if ("IntersectionObserver" in window) {
-      const imgObserver = new IntersectionObserver(
-        handleIntersection,
-        imgOptions
-      );
-      images.forEach((img) => imgObserver.observe(img));
-    } else {
-      images.forEach(loadImageImmediately);
+  function setupImageObservation() {
+    const images = document.querySelectorAll("img[data-src]");
+    if (!images.length) {
+      console.warn("No images with data-src attribute found.");
+      return;
     }
+
+    "IntersectionObserver" in window
+      ? setupImageObservationUsingIntersectionObserver(images)
+      : images.forEach(loadImageFromData);
   }
 
   function startLazyLoadImages() {
-    if ("requestIdleCallback" in window) {
-      requestIdleCallback(loadImages);
-    } else {
-      loadImages();
-    }
+    "requestIdleCallback" in window
+      ? requestIdleCallback(setupImageObservation)
+      : setupImageObservation();
   }
 
   startLazyLoadImages();
+
+  function loadImageFromData(img) {
+    if (!img.dataset.src) {
+      console.error("No data-src attribute found for image.");
+      return;
+    }
+    img.src = img.dataset.src;
+    img.removeAttribute("data-src");
+  }
 
   const icons = document.querySelectorAll(".lightbox .icon");
   const imageWrapper = document.getElementById("image-wrapper");
@@ -75,7 +81,7 @@ function init() {
   const rotateRightBtn = Button("rotate-right", "Rotate image to the right");
 
   function setAttributes(element, attributes) {
-    for (let attribute in attributes) {
+    for (const attribute in attributes) {
       element.setAttribute(attribute, attributes[attribute]);
     }
   }
@@ -278,7 +284,7 @@ function init() {
     transformImage();
   }
 
-  window.addEventListener("keydown", handleKeyDown);
+  self.addEventListener("keydown", handleKeyDown);
   lightboxImage.addEventListener("mousedown", handleMouseDown);
   lightboxImage.addEventListener("mousemove", handleMouseMove);
   lightboxImage.addEventListener("mouseup", handleMouseUp);
@@ -287,7 +293,7 @@ function init() {
   lightboxImage.addEventListener("touchend", handleTouchEnd);
   lightboxImage.addEventListener("wheel", handleWheel);
 
-  async function loadImage(src) {
+  function loadImage(src) {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.src = src;
