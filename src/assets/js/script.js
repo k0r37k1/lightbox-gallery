@@ -81,10 +81,37 @@ function init() {
   const rotateRightBtn = Button("rotate-right", "Rotate image to the right");
 
   function setAttributes(element, attributes) {
-    for (const attribute in attributes) {
-      element.setAttribute(attribute, attributes[attribute]);
+    if (element && typeof attributes === "object") {
+      for (const attribute in attributes) {
+        element.setAttribute(attribute, attributes[attribute].toString());
+      }
     }
   }
+
+  function setElementAriaLabel(selector, ariaLabel) {
+    const elements = document.querySelectorAll(selector);
+
+    elements.forEach((element) => {
+      setAttributes(element, {
+        "aria-label": ariaLabel,
+      });
+    });
+  }
+
+  // For main
+  setElementAriaLabel("main", "Main");
+
+  // For sections
+  setElementAriaLabel("section#Lightbox", "Gallery Lightbox");
+
+  // For footer
+  setElementAriaLabel("footer", "Footer Information");
+
+  // For header
+  setElementAriaLabel("header", "Header and Navigation");
+
+  // For navigation
+  setElementAriaLabel("nav#mainNav", "Main Navigation");
 
   function Button(id, ariaLabel) {
     const button = document.getElementById(id);
