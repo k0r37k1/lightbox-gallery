@@ -99,10 +99,10 @@ function init() {
   }
 
   // For main
-  setElementAriaLabel("main", "Main");
+  setElementAriaLabel("main", "Content Area");
 
   // For sections
-  setElementAriaLabel("section#Lightbox", "Gallery Lightbox");
+  setElementAriaLabel("section#lightbox", "Gallery Lightbox");
 
   // For footer
   setElementAriaLabel("footer", "Footer Information");
@@ -111,7 +111,7 @@ function init() {
   setElementAriaLabel("header", "Header and Navigation");
 
   // For navigation
-  setElementAriaLabel("nav#mainNav", "Main Navigation");
+  setElementAriaLabel("nav", "Main Navigation");
 
   function Button(id, ariaLabel) {
     const button = document.getElementById(id);

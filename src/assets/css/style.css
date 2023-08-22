@@ -133,7 +133,7 @@ a {
   object-fit: contain;
 }
 
-.lightbox-container {
+.images-container {
   display: flex;
   justify-content: center;
   align-items: center;
