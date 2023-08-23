@@ -606,12 +606,13 @@ function animate(timeline, element, props, config) {
 
 items.forEach((item) => {
   const config = getItemConfig(item);
-
   const overlay = item.querySelector(".overlay");
   const caption = item.querySelector(".figure-caption");
   const img = item.querySelector("img");
-
-  const timeline = gsap.timeline({ paused: true, reversed: true });
+  const timeline = gsap.timeline({
+    paused: true,
+    reversed: true,
+  });
 
   animate(timeline, overlay, { autoAlpha: 0 }, config);
   animate(timeline, img, { scale: defaultConfig.scale }, config);
@@ -638,7 +639,6 @@ function printImage() {
 
   const printWindow = window.open("", "_blank");
   const printDocument = printWindow.document;
-
   const printImageElement = printDocument.createElement("img");
   printImageElement.src = lightboxImage.src;
   printImageElement.style.maxWidth = "100%";
