@@ -81,40 +81,25 @@ function init() {
   const rotateRightBtn = Button("rotate-right", "Rotate image to the right");
 
   function setAttributes(element, attributes) {
-    if (element && typeof attributes === "object") {
-      for (const attribute in attributes) {
-        element.setAttribute(attribute, attributes[attribute].toString());
-      }
-    }
-  }
-
-  function setElementAriaLabel(selector, ariaLabel) {
-    const elements = document.querySelectorAll(selector);
-
-    elements.forEach((element) => {
-      setAttributes(element, {
-        "aria-label": ariaLabel,
-      });
+    if (!element) return;
+    Object.entries(attributes).forEach(([key, value]) => {
+      element.setAttribute(
+        key,
+        typeof value === "string" ? value : value.toString()
+      );
     });
   }
 
-  // For main
-  setElementAriaLabel("main", "Content Area");
+  function setElementAttribute(selector, attributeName, value) {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach((element) =>
+      setAttributes(element, { [attributeName]: value })
+    );
+  }
 
-  // For sections
-  setElementAriaLabel("section#lightbox", "Gallery Lightbox");
-
-  // For footer
-  setElementAriaLabel("footer", "Footer Information");
-
-  // For header
-  setElementAriaLabel("header", "Header and Navigation");
-
-  // For navigation
-  setElementAriaLabel("nav", "Main Navigation");
-
-  function Button(id, ariaLabel) {
+  function createButton({ id, ariaLabel }) {
     const button = document.getElementById(id);
+    if (!button) return;
     setAttributes(button, {
       "aria-label": ariaLabel,
       tabindex: 0,
@@ -123,26 +108,36 @@ function init() {
     return button;
   }
 
-  const buttons = [
-    closeBtn,
-    prevBtn,
-    printBtn,
-    nextBtn,
-    fullscreenBtn,
-    flipVerticalBtn,
-    flipHorizontalBtn,
-    rotateLeftBtn,
-    rotateRightBtn,
+  const buttonConfigs = [
+    { id: "closeBtn", ariaLabel: "Close" },
+    { id: "prevBtn", ariaLabel: "Previous image" },
+    { id: "printBtn", ariaLabel: "Print image" },
+    { id: "nextBtn", ariaLabel: "Next image" },
+    { id: "fullscreenBtn", ariaLabel: "Toggle fullscreen" },
+    { id: "flipVerticalBtn", ariaLabel: "Flip image vertically" },
+    { id: "flipHorizontalBtn", ariaLabel: "Flip image horizontally" },
+    { id: "rotateLeftBtn", ariaLabel: "Rotate image to the left" },
+    { id: "rotateRightBtn", ariaLabel: "Rotate image to the right" },
   ];
 
-  lightbox.setAttribute("role", "dialog");
-  lightbox.setAttribute("aria-modal", "true");
-  lightbox.setAttribute("aria-labelledby", "lightbox-title");
-  lightbox.setAttribute("aria-describedby", "lightbox-description");
+  const buttons = buttonConfigs.map(createButton).filter(Boolean);
 
   buttons.forEach((button) => {
     button.addEventListener("click", (event) => event.stopPropagation());
   });
+
+  setAttributes(lightbox, {
+    role: "dialog",
+    "aria-modal": "true",
+    "aria-labelledby": "lightbox-title",
+    "aria-describedby": "lightbox-description",
+  });
+
+  setElementAttribute("main", "aria-label", "Content Area");
+  setElementAttribute("section#lightbox", "aria-label", "Image Lightbox");
+  setElementAttribute("footer", "aria-label", "Footer Information");
+  setElementAttribute("header", "aria-label", "Header and Navigation");
+  setElementAttribute("nav", "aria-label", "Navigation menu");
 
   const SCALE_INCREMENT = 0.1;
   const MIN_SCALE = 0.5;
