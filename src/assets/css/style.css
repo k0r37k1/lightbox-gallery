@@ -34,17 +34,14 @@ h1.title {
   color: var(--green-color);
 }
 
-.container {
+.container-sm {
   background-color: var(--background-color-primary);
   border: 3px solid var(--purple-color);
   border-radius: 0.5rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
   padding: 2rem;
   padding-bottom: 0.5rem;
-  position: relative;
-  z-index: 1;
   margin: 1rem auto;
-  display: block;
 }
 
 footer {
