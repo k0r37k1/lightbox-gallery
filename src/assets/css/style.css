@@ -10,6 +10,7 @@
   --background-color-gray: rgba(26, 26, 40, 1);
   --current-line-color: rgba(30, 30, 45, 1);
   --selection-color: rgba(34, 34, 50, 1);
+  --black-color: rgba(0, 0, 0, 1);
   --white-color: rgb(239, 236, 220);
   --comment-color: rgba(80, 96, 139, 1);
   --cyan-color: rgb(105, 202, 212);
@@ -19,6 +20,16 @@
   --purple-color: rgba(165, 95, 210, 1);
   --red-color: rgb(202, 40, 40);
   --yellow-color: rgba(227, 227, 80, 1);
+  --grid-color-1: #f94144;
+  --grid-color-2: #f3722c;
+  --grid-color-3: #f8961e;
+  --grid-color-4: #f9844a;
+  --grid-color-5: #f9c74f;
+  --grid-color-6: #90be6d;
+  --grid-color-7: #43aa8b;
+  --grid-color-8: #4d908e;
+  --grid-color-9: #577590;
+  --grid-color-10: #277da1;
 }
 
 body {
@@ -34,14 +45,17 @@ h1.title {
   color: var(--green-color);
 }
 
-.container-sm {
+.container {
   background-color: var(--background-color-primary);
   border: 3px solid var(--purple-color);
   border-radius: 0.5rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
   padding: 2rem;
   padding-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
   margin: 1rem auto;
+  display: block;
 }
 
 footer {
@@ -97,30 +111,34 @@ a {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: var(--pink-color);
+  color: var(--white-color);
+  font-weight: 500;
+  font-family: Fira Code, monospace;
+  text-shadow: rgba(0, 0, 0, 0.7);
   opacity: 1;
   z-index: 3;
   font-size: 1rem;
-  font-weight: 600;
   transition: all 0.5s;
 }
 
 .lightbox {
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+  margin: 0;
+  padding: 0;
   width: 100%;
   height: 100%;
   display: none;
   z-index: 1000;
   overflow: hidden;
-  margin: 0;
-  padding: 0;
+
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 1);
+  flex-direction: column;
 }
 
 .lightbox img {
@@ -131,10 +149,30 @@ a {
 }
 
 .images-container {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 80%;
+  width: 100%;
+}
+
+.thumbnails-container {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: flex;
+  height: 20%;
   width: 100%;
 }
 
@@ -203,7 +241,7 @@ a {
   font-size: 1rem;
   text-align: center;
   position: absolute;
-  top: 2%;
+  top: 5%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
@@ -240,10 +278,10 @@ a {
 }
 
 .lightbox-navigation {
-  display: flex;
+  position: absolute;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
+  display: flex;
   top: 0;
   bottom: 0;
   left: 5%;
