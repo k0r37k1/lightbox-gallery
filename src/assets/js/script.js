@@ -698,7 +698,7 @@ const getConfig = (item, attr, fallback) => item.getAttribute(attr) || fallback;
 
 // Shuffle and collect ten background colors from CSS variables
 let colors = shuffle(
-  Array.from({ length: 10 }, (_, i) =>
+  Array.from({ length: 5 }, (_, i) =>
     getComputedStyle(document.documentElement)
       .getPropertyValue(`--grid-color-${i + 1}`)
       .trim()
