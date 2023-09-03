@@ -10,7 +10,7 @@ This script is under the MIT License so feel free to modify, share or distribute
 
 - Responsive design
 - Lightbox functionality
-- Enhanced Keyboard navigation WIP
+- Enhanced Keyboard navigation - WIP
 - Pan-Zoom feature
 - Enhanced Touch gesture support
 - Masonry layout
@@ -28,8 +28,8 @@ This script is under the MIT License so feel free to modify, share or distribute
 - 'Load more..' function
 - ImageArray.js (For outsourcing images and code)
 - Video support (using vlite.js library)
-- Automatic slideshow (WIP)
-- Thumbnail image carousel (WIP)
+- Automatic slideshow - WIP
+- Thumbnail image carousel - WIP
 - Multilingual support
 - Light Theme
 - Dark/Light mode
