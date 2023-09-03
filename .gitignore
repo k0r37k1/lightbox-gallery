@@ -28,3 +28,6 @@ public/
 # Ignore Tailwind CSS and PostCSS related files
 /tailwind.config.js
 /postcss.config.js
+/purgecss.config.js
+/.stylelintrc.json
+/.prettierrc.json
