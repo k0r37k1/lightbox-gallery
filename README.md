@@ -1,6 +1,8 @@
-# Lightbox Gallery by Alex Korezki
+# Lightbox Gallery Frontrendsetters - k0r37k1
 
-This Lightbox Gallery Script is powered by GPT-4 and built on Bootstrap 5.3, CSS3, HTML5, modern JS, GSAP 3 and uses the Masonry.js/ImageLoaded.js by David DeSandro,
+This Lightbox Gallery Script is made only by OpenAI's GPT-4 as a Low Code Project and uses Bootstrap 5, CSS3, HTML5, Vanilla JS, GSAP 3 and the Masonry.js/ImageLoaded.js by David DeSandro.
+
+This script is under the MIT License so feel free to modify, share or distribute the code.
 
 ## Features
 
@@ -26,8 +28,8 @@ This Lightbox Gallery Script is powered by GPT-4 and built on Bootstrap 5.3, CSS
 - 'Load more..' function
 - ImageArray.js (For outsourcing images and code)
 - Video support (using vlite.js library)
-- Automatic slideshow
-- Thumbnail image carousel
+- Automatic slideshow (WIP)
+- Thumbnail image carousel (WIP)
 - Multilingual support
 - Light Theme
 - Dark/Light mode
