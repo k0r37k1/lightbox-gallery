@@ -4,7 +4,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,700;1,900&display=swap");
 
 :root {
-  --bs-white: rgb(241 241 230);
+  --bs-white: rgb(255 255 255);
   --bs-black: rgb(0 0 0);
   --bs-gray: rgb(42 38 61);
   --bs-light: rgb(241 241 230);
@@ -92,7 +92,7 @@ a {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: var(--bs-white);
+  color: var(--bs-light);
   font-weight: 500;
   font-family: "Fira Code", monospace;
   text-shadow: rgba(0 0 0 / 70%);
@@ -136,6 +136,7 @@ a {
   align-items: center;
   height: 85%;
   width: 100%;
+  z-index: 1000;
 }
 
 .thumbnails-container {
@@ -149,6 +150,7 @@ a {
   align-items: center;
   height: 15%;
   width: 100%;
+  z-index: 1000;
 }
 
 #lightbox-image {
@@ -263,8 +265,8 @@ a {
 }
 
 .lightbox .icon:hover {
-  color: var(--bs-white);
-  border-color: var(--bs-white);
+  color: var(--bs-light);
+  border-color: var(--bs-light);
 }
 
 @media (width <= 576px) {
