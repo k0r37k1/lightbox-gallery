@@ -104,7 +104,7 @@ a {
 
 .lightbox {
   position: fixed;
-  inset: 0%;
+  inset: 0;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -137,10 +137,11 @@ a {
   height: 85%;
   width: 100%;
   z-index: 1000;
+  flex-direction: column;
 }
 
 .thumbnails-container {
-  inset: auto 0%;
+  inset: 0;
   margin: 0;
   padding: 0;
   position: relative;
@@ -159,6 +160,7 @@ a {
   object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;
+  z-index: 1001;
 }
 
 .lightbox .icon {
@@ -181,12 +183,11 @@ a {
 
 #lightbox-info {
   position: relative;
-  bottom: 6%;
+  bottom: 5%;
   left: 0;
   width: 100%;
   text-align: center;
-  box-sizing: border-box;
-  z-index: 1000;
+  z-index: 1001;
 }
 
 #lightbox-title {
@@ -217,7 +218,7 @@ a {
   top: 5%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1000;
+  z-index: 1001;
   text-shadow: 1px 1px 3px rgba(0 0 0 / 50%);
 }
 
@@ -260,7 +261,7 @@ a {
 
 .lightbox-navigation .prev,
 .lightbox-navigation .next {
-  position: static;
+  position: relative;
   transform: none;
 }
 

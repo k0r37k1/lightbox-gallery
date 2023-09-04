@@ -15,7 +15,9 @@
   <body>
     <!--ANCHOR HEADER-->
     <header>
-      <h1 class="title d-flex justify-content-center">imageslightboxedJS 1.0</h1>
+      <h1 class="title d-flex justify-content-center">
+        imageslightboxedJS 1.0
+      </h1>
     </header>
     <main>
       <!--ANCHOR GALLERY-->
@@ -254,14 +256,6 @@
     <!--ANCHOR LIGHTBOX & NAVIGATION-->
     <section class="lightbox" id="lightbox">
       <div>
-        <nav class="lightbox-navigation" aria-label="Lightbox navigation">
-          <span class="icon prev" id="prev">
-            <i class="fas fa-chevron-left"></i>
-          </span>
-          <span class="icon next" id="next">
-            <i class="fas fa-chevron-right"></i>
-          </span>
-        </nav>
         <nav class="lightbox-controlpanel" aria-label="Lightbox controlpanel">
           <span class="icon print" id="print"
             ><i class="fas fa-print"></i
@@ -290,12 +284,22 @@
       <figure class="images-container" id="images-container">
         <img alt="lightbox-image" id="lightbox-image" src="./" />
         <p id="image-counter"></p>
-      </figure>
-      <figcaption id="lightbox-info">
+        <nav class="lightbox-navigation" aria-label="Lightbox navigation">
+          <span class="icon prev" id="prev">
+            <i class="fas fa-chevron-left"></i>
+          </span>
+          <span class="icon next" id="next">
+            <i class="fas fa-chevron-right"></i>
+          </span>
+        </nav>
+                  <figcaption id="lightbox-info">
         <h2 id="lightbox-title"></h2>
         <p id="lightbox-description"></p>
       </figcaption>
-      <figure class="thumbnails-container" id="thumbnails-container"></figure>
+      </figure>
+      <figure class="thumbnails-container" id="thumbnails-container">
+        <div id="thumbnail-images"></div>
+      </figure>
     </section>
     <!--ANCHOR SCRIPTS-->
     <script src="./src/assets/js/bootstrap.bundle.min.js"></script>
