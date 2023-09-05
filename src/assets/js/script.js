@@ -2,6 +2,10 @@
 function init() {
   // Select the grid element from DOM
   const grid = document.querySelector(".grid");
+  if (grid === null) {
+    console.error("Grid element not found");
+    return;
+  }
 
   // Create a new Masonry instance
   const msnry = new Masonry(grid, {
@@ -460,16 +464,17 @@ function init() {
     currentItem = (currentItem + direction + items.length) % items.length;
 
     // Update image source
-    const newSrc = items[currentItem].querySelector("a").href;
-    lightboxImage.src = newSrc;
+    const newSrc = items[currentItem]?.querySelector("a")?.href;
+    if (newSrc) {
+      lightboxImage.src = newSrc;
+    }
 
     // Update title and description
     updateTitleAndDescription(currentItem);
 
     // Update image counter display
-    document.getElementById("image-counter").innerText = `${
-      currentItem + 1
-    } / ${items.length}`;
+    const imageCounter = document.getElementById("image-counter");
+    imageCounter.innerText = `${currentItem + 1} / ${items.length}`;
 
     // Initial animation setup
     xPercent = 100 * direction;
