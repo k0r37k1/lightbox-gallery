@@ -402,6 +402,8 @@ function init() {
     // Update title and description
     updateTitleAndDescription(currentItem);
 
+    updateActiveThumbnail(); // Add this line to synchronize the active thumbnail
+
     // Initial animation for lightbox image
     gsap.fromTo(
       lightboxImage,
@@ -455,6 +457,40 @@ function init() {
     document.getElementById("image-counter").innerText = counter; // Update counter
   }
 
+  // ANCHOR Function to generate Thumbnails
+  function generateThumbnails() {
+    const thumbnailContainer = document.getElementById("thumbnail-images");
+
+    items.forEach((item, index) => {
+      const imgElement = item.querySelector("img");
+      const thumbnailSrc = imgElement.getAttribute("data-src-thumb");
+
+      const thumbnail = document.createElement("img");
+      thumbnail.src = thumbnailSrc;
+      thumbnail.addEventListener("click", (e) => {
+        openLightbox(e, index).catch(console.error);
+      });
+
+      thumbnailContainer.appendChild(thumbnail);
+    });
+  }
+
+  // Function to update active thumbnail
+  function updateActiveThumbnail() {
+    const thumbnails = document.querySelectorAll("#thumbnail-images img");
+    thumbnails.forEach((thumbnail, index) => {
+      thumbnail.classList.remove("active");
+      if (index === currentItem) {
+        thumbnail.classList.add("active");
+      }
+    });
+  }
+
+  // Initialize Thumbnails after the DOM is fully loaded
+  document.addEventListener("DOMContentLoaded", () => {
+    generateThumbnails();
+  });
+
   // ANCHOR Change Lightbox Image and Animate
   function changeImage(direction) {
     // Reset image and animations
@@ -471,6 +507,8 @@ function init() {
 
     // Update title and description
     updateTitleAndDescription(currentItem);
+
+    updateActiveThumbnail(); // Add this line to synchronize the active thumbnail
 
     // Update image counter display
     const imageCounter = document.getElementById("image-counter");
