@@ -19,15 +19,25 @@ function init() {
     msnry.layout();
   });
 
-  function handleIntersection(entries, observer) {
+  const loadImageFromData = (img) => {
+    const src = img.getAttribute("data-src");
+    if (!src) {
+      console.error("No data-src attribute found for image.");
+      return;
+    }
+    img.src = src;
+    img.removeAttribute("data-src");
+  };
+
+  const handleIntersection = (entries, observer) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       loadImageFromData(entry.target);
       observer.unobserve(entry.target);
     });
-  }
+  };
 
-  function setupImageObservationUsingIntersectionObserver(images) {
+  const setupImageObservationUsingIntersectionObserver = (images) => {
     const imgOptions = {
       rootMargin: "0px 0px 50px 0px",
       threshold: 0,
@@ -37,37 +47,33 @@ function init() {
       imgOptions
     );
     images.forEach((img) => imgObserver.observe(img));
-  }
+  };
 
-  function setupImageObservation() {
+  const setupImageObservation = () => {
     const images = document.querySelectorAll("img[data-src]");
-    if (!images.length) {
+    if (images.length === 0) {
       console.warn("No images with data-src attribute found.");
       return;
     }
-    "IntersectionObserver" in window
-      ? setupImageObservationUsingIntersectionObserver(images)
-      : images.forEach(loadImageFromData);
-  }
 
-  function startLazyLoadImages() {
-    "requestIdleCallback" in window
-      ? requestIdleCallback(setupImageObservation)
-      : setupImageObservation();
-  }
+    if ("IntersectionObserver" in window) {
+      setupImageObservationUsingIntersectionObserver(images);
+    } else {
+      images.forEach(loadImageFromData);
+    }
+  };
+
+  const startLazyLoadImages = () => {
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(setupImageObservation);
+    } else {
+      setupImageObservation();
+    }
+  };
 
   startLazyLoadImages();
 
-  function loadImageFromData(img) {
-    if (!img.dataset.src) {
-      console.error("No data-src attribute found for image.");
-      return;
-    }
-    img.src = img.dataset.src;
-    img.removeAttribute("data-src");
-  }
-
-  const icons = document.querySelectorAll(".lightbox .icon"); 
+  const icons = document.querySelectorAll(".lightbox .icon");
   const lightbox = document.getElementById("lightbox");
   const lightboxImage = document.getElementById("lightbox-image");
 
@@ -242,8 +248,7 @@ function init() {
       isMoving = true;
       mouseX = e.touches[0].clientX;
       mouseY = e.touches[0].clientY;
-    }
-    else if (e.touches.length === 2) {
+    } else if (e.touches.length === 2) {
       isMoving = false;
       const dx = e.touches[0].clientX - e.touches[1].clientX;
       const dy = e.touches[0].clientY - e.touches[1].clientY;
@@ -298,7 +303,7 @@ function init() {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.src = src;
-      img.onload = () => resolve(img); 
+      img.onload = () => resolve(img);
       img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
     });
   }
@@ -380,8 +385,8 @@ function init() {
 
   function updateLightbox({ src, alt, active, counter }) {
     lightboxImage.src = src;
-    lightboxImage.alt = alt; 
-    lightbox.classList.toggle("active", active); 
+    lightboxImage.alt = alt;
+    lightbox.classList.toggle("active", active);
     lightbox.style.display = active ? "flex" : "none";
     document.getElementById("image-counter").innerText = counter;
   }
@@ -600,9 +605,9 @@ function init() {
   }
 
   document.addEventListener("fullscreenchange", () => {
-    const icon = fullscreenBtn.querySelector("i"); 
-    icon.classList.toggle("fa-expand", !document.fullscreenElement); 
-    icon.classList.toggle("fa-compress", !!document.fullscreenElement); 
+    const icon = fullscreenBtn.querySelector("i");
+    icon.classList.toggle("fa-expand", !document.fullscreenElement);
+    icon.classList.toggle("fa-compress", !!document.fullscreenElement);
   });
 }
 
@@ -682,27 +687,38 @@ function printImage() {
     return;
   }
 
-  const printWindow = window.open("", "_blank");
-  const printDocument = printWindow.document;
+  const iframe = document.createElement("iframe");
 
-  const printImageElement = printDocument.createElement("img");
+  iframe.style.visibility = "hidden";
+  iframe.style.position = "fixed";
+  iframe.style.right = "0";
+  iframe.style.bottom = "0";
+
+  document.body.appendChild(iframe);
+
+  const iframeDocument =
+    iframe.contentDocument || iframe.contentWindow.document;
+
+  const printImageElement = iframeDocument.createElement("img");
   printImageElement.src = lightboxImage.src;
   printImageElement.style.maxWidth = "100%";
   printImageElement.style.maxHeight = "100%";
 
+  iframeDocument.body.appendChild(printImageElement);
+
   printImageElement.addEventListener("load", function () {
-    if (!printWindow.print()) {
-      console.warn("Failed to trigger automatic printing.");
+    try {
+      iframe.contentWindow.print();
+    } catch (e) {
+      console.warn("Failed to trigger automatic printing:", e);
     }
-    printWindow.close();
+    document.body.removeChild(iframe);
   });
 
   printImageElement.addEventListener("error", function () {
     console.error("Failed to load image for printing.");
-    printWindow.close();
+    document.body.removeChild(iframe);
   });
-
-  printDocument.body.appendChild(printImageElement);
 }
 
 function protectImages() {
