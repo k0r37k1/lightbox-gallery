@@ -134,19 +134,6 @@ buttons.forEach((button) => {
   lightbox.setAttribute("aria-labelledby", "lightbox-title");
   lightbox.setAttribute("aria-describedby", "lightbox-description");
 
-    function setElementAriaLabel(selector, ariaLabel) {
-      const elements = document.querySelectorAll(selector);
-      elements.forEach((element) => {
-        setAttributes(element, { "aria-label": ariaLabel });
-      });
-    }
-
-    setElementAriaLabel("main", "Content Area");
-    setElementAriaLabel("section#lightbox", "Gallery Lightbox");
-    setElementAriaLabel("footer", "Footer Information");
-    setElementAriaLabel("header", "Header and Navigation");
-    setElementAriaLabel("nav", "Main Navigation");
-
   const SCALE_INCREMENT = 0.1;
   const MIN_SCALE = 0.5;
   const MAX_SCALE = 3;
@@ -343,7 +330,6 @@ buttons.forEach((button) => {
     });
 
     updateTitleAndDescription(currentItem);
-
     updateActiveThumbnail();
 
     gsap.fromTo(
@@ -391,36 +377,40 @@ buttons.forEach((button) => {
     document.getElementById("image-counter").innerText = counter;
   }
 
-  function generateThumbnails() {
-    const thumbnailContainer = document.getElementById("thumbnail-images");
+function generateThumbnails() {
+  const thumbnailContainer = document.getElementById("thumbnail-images");
 
-    items.forEach((item, index) => {
-      const imgElement = item.querySelector("img");
-      const thumbnailSrc = imgElement.getAttribute("data-src-thumb");
+  items.forEach((item, index) => {
+    const imgElement = item.querySelector("img");
+    const thumbnailSrc = imgElement.getAttribute("data-src-thumb");
 
-      const thumbnail = document.createElement("img");
-      thumbnail.src = thumbnailSrc;
-      thumbnail.addEventListener("click", (e) => {
-        openLightbox(e, index).catch(console.error);
-      });
+    const thumbnail = document.createElement("img");
+    thumbnail.src = thumbnailSrc;
+    thumbnail.className = "thumbnail";
 
-      thumbnailContainer.appendChild(thumbnail);
+    thumbnail.addEventListener("click", () => {
+      openLightbox(null, index);
     });
-  }
 
-  function updateActiveThumbnail() {
-    const thumbnails = document.querySelectorAll("#thumbnail-images img");
-    thumbnails.forEach((thumbnail, index) => {
-      thumbnail.classList.remove("active");
-      if (index === currentItem) {
-        thumbnail.classList.add("active");
-      }
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    generateThumbnails();
+    thumbnailContainer.appendChild(thumbnail);
   });
+}
+
+
+function updateActiveThumbnail() {
+  const thumbnails = document.querySelectorAll(".thumbnail");
+
+  thumbnails.forEach((thumbnail, index) => {
+    thumbnail.classList.remove("active");
+    if (index === currentItem) {
+      thumbnail.classList.add("active");
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  generateThumbnails();
+});
 
   function changeImage(direction) {
     resetImageAndAnimation();
@@ -433,7 +423,6 @@ buttons.forEach((button) => {
     }
 
     updateTitleAndDescription(currentItem);
-
     updateActiveThumbnail();
 
     const imageCounter = document.getElementById("image-counter");
