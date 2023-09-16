@@ -90,37 +90,24 @@ function init() {
   const rotateLeftBtn = Button("rotate-left", "Rotate image to the left");
   const rotateRightBtn = Button("rotate-right", "Rotate image to the right");
 
-  function setAttributes(element, attributes) {
-    if (element && typeof attributes === "object") {
-      for (const attribute in attributes) {
-        element.setAttribute(attribute, attributes[attribute].toString());
-      }
+function setAttributes(element, attributes) {
+  if (element && typeof attributes === "object") {
+    for (const attribute in attributes) {
+      element.setAttribute(attribute, attributes[attribute].toString());
     }
   }
+}
 
-  function setElementAriaLabel(selector, ariaLabel) {
-    const elements = document.querySelectorAll(selector);
-    elements.forEach((element) => {
-      setAttributes(element, { "aria-label": ariaLabel });
-    });
-  }
-
-  setElementAriaLabel("main", "Content Area");
-  setElementAriaLabel("section#lightbox", "Gallery Lightbox");
-  setElementAriaLabel("footer", "Footer Information");
-  setElementAriaLabel("header", "Header and Navigation");
-  setElementAriaLabel("nav", "Main Navigation");
-
-  function Button(id, ariaLabel) {
-    const button = document.getElementById(id);
-    if (!button) return;
-    setAttributes(button, {
-      "aria-label": ariaLabel,
-      tabindex: 0,
-      role: "button",
-    });
-    return button;
-  }
+ function Button(id, ariaLabel) {
+   const button = document.getElementById(id);
+   if (!button) return;
+   setAttributes(button, {
+     "aria-label": ariaLabel,
+     tabindex: 0,
+     role: "button",
+   });
+   return button;
+ }
 
   const buttonConfigs = [
     { id: "close", ariaLabel: "Close" },
@@ -134,18 +121,31 @@ function init() {
     { id: "rotate-right", ariaLabel: "Rotate image to the right" },
   ];
 
-  const buttons = buttonConfigs.map(({ id, ariaLabel }) =>
-    Button(id, ariaLabel)
-  );
+const buttons = buttonConfigs.map(({ id, ariaLabel }) => Button(id, ariaLabel));
 
-  buttons.forEach((button) => {
+buttons.forEach((button) => {
+  if (button) {
     button.addEventListener("click", (event) => event.stopPropagation());
-  });
+  }
+});
 
   lightbox.setAttribute("role", "dialog");
   lightbox.setAttribute("aria-modal", "true");
   lightbox.setAttribute("aria-labelledby", "lightbox-title");
   lightbox.setAttribute("aria-describedby", "lightbox-description");
+
+    function setElementAriaLabel(selector, ariaLabel) {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach((element) => {
+        setAttributes(element, { "aria-label": ariaLabel });
+      });
+    }
+
+    setElementAriaLabel("main", "Content Area");
+    setElementAriaLabel("section#lightbox", "Gallery Lightbox");
+    setElementAriaLabel("footer", "Footer Information");
+    setElementAriaLabel("header", "Header and Navigation");
+    setElementAriaLabel("nav", "Main Navigation");
 
   const SCALE_INCREMENT = 0.1;
   const MIN_SCALE = 0.5;

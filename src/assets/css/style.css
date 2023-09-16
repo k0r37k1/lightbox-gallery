@@ -43,6 +43,7 @@ h1.title {
 }
 
 footer {
+  clear: both;
   background-color: var(--bs-black);
   bottom: 0;
   color: var(--bs-white);
@@ -51,7 +52,8 @@ footer {
   position: fixed;
   text-align: center;
   width: 100%;
-  z-index: 1003;
+  display: block;
+  z-index:-1;
 }
 
 a {
@@ -131,7 +133,6 @@ a {
   flex-direction: column;
   height: 80%;
   inset: 0;
-  justify-content: center;
   margin: 0;
   overflow: hidden;
   padding: 0;
@@ -161,8 +162,8 @@ a {
 }
 
 .thumbnails-carousel img {
-  width: 150px;
-  height: 75px;
+  width: 200px;
+  height: 150px;
   object-fit: cover;
   margin: 5px;
   border: 2px solid transparent;
@@ -173,6 +174,7 @@ a {
 }
 
 #lightbox-image {
+  justify-content: center;
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
@@ -200,7 +202,7 @@ a {
 }
 
 #lightbox-info {
-  bottom: 5%;
+  bottom: 7%;
   left: 0;
   position: relative;
   text-align: center;
