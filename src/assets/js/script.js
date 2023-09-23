@@ -1,4 +1,5 @@
 function init() {
+  // ANCHOR
   const grid = document.querySelector(".grid");
   if (grid === null) {
     console.error("Grid element not found");
@@ -15,10 +16,12 @@ function init() {
     originTop: true,
   });
 
+  //ANCHOR
   imagesLoaded(grid).on("progress", function () {
     msnry.layout();
   });
 
+  //ANCHOR
   const loadImageFromData = (img) => {
     const src = img.getAttribute("data-src");
     if (!src) {
@@ -29,6 +32,7 @@ function init() {
     img.removeAttribute("data-src");
   };
 
+  // ANCHOR
   const handleIntersection = (entries, observer) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
@@ -73,10 +77,11 @@ function init() {
 
   startLazyLoadImages();
 
-  const icons = document.querySelectorAll(".lightbox .icon");
+  // ANCHOR
   const lightbox = document.getElementById("lightbox");
   const lightboxImage = document.getElementById("lightbox-image");
 
+  // ANCHOR
   const closeBtn = Button("close", "Close lightbox");
   const prevBtn = Button("prev", "Previous image");
   const printBtn = Button("print", "Print image");
@@ -90,24 +95,26 @@ function init() {
   const rotateLeftBtn = Button("rotate-left", "Rotate image to the left");
   const rotateRightBtn = Button("rotate-right", "Rotate image to the right");
 
-function setAttributes(element, attributes) {
-  if (element && typeof attributes === "object") {
-    for (const attribute in attributes) {
-      element.setAttribute(attribute, attributes[attribute].toString());
+  // ANCHOR
+  function setAttributes(element, attributes) {
+    if (element && typeof attributes === "object") {
+      for (const attribute in attributes) {
+        element.setAttribute(attribute, attributes[attribute].toString());
+      }
     }
   }
-}
 
- function Button(id, ariaLabel) {
-   const button = document.getElementById(id);
-   if (!button) return;
-   setAttributes(button, {
-     "aria-label": ariaLabel,
-     tabindex: 0,
-     role: "button",
-   });
-   return button;
- }
+  // ANCHOR
+  function Button(id, ariaLabel) {
+    const button = document.getElementById(id);
+    if (!button) return;
+    setAttributes(button, {
+      "aria-label": ariaLabel,
+      tabindex: 0,
+      role: "button",
+    });
+    return button;
+  }
 
   const buttonConfigs = [
     { id: "close", ariaLabel: "Close" },
@@ -121,19 +128,22 @@ function setAttributes(element, attributes) {
     { id: "rotate-right", ariaLabel: "Rotate image to the right" },
   ];
 
-const buttons = buttonConfigs.map(({ id, ariaLabel }) => Button(id, ariaLabel));
+  const buttons = buttonConfigs.map(({ id, ariaLabel }) =>
+    Button(id, ariaLabel)
+  );
 
-buttons.forEach((button) => {
-  if (button) {
-    button.addEventListener("click", (event) => event.stopPropagation());
-  }
-});
+  buttons.forEach((button) => {
+    if (button) {
+      button.addEventListener("click", (event) => event.stopPropagation());
+    }
+  });
 
   lightbox.setAttribute("role", "dialog");
   lightbox.setAttribute("aria-modal", "true");
   lightbox.setAttribute("aria-labelledby", "lightbox-title");
   lightbox.setAttribute("aria-describedby", "lightbox-description");
 
+  // ANCHOR
   const SCALE_INCREMENT = 0.1;
   const MIN_SCALE = 0.5;
   const MAX_SCALE = 3;
@@ -152,6 +162,7 @@ buttons.forEach((button) => {
     scaleY = 1;
   let xPercent;
 
+  // ANCHOR
   function handleKeyActions(e) {
     if (lightbox.style.display === "none") return;
 
@@ -209,12 +220,14 @@ buttons.forEach((button) => {
     }
   }
 
+  // ANCHOR
   function handleMouseDown(e) {
     isMoving = true;
     mouseX = e.clientX;
     mouseY = e.clientY;
   }
 
+  // ANCHOR
   function handleMouseMove(e) {
     if (!isMoving) return;
     requestAnimationFrame(() => {
@@ -226,10 +239,12 @@ buttons.forEach((button) => {
     });
   }
 
+  // ANCHOR
   function handleMouseUp() {
     isMoving = false;
   }
 
+  // ANCHOR
   function handleTouchStart(e) {
     if (e.touches.length === 1) {
       isMoving = true;
@@ -244,6 +259,7 @@ buttons.forEach((button) => {
     }
   }
 
+  // ANCHOR
   function handleTouchMove(e) {
     e.preventDefault();
     if (e.touches.length === 1 && isMoving) {
@@ -264,12 +280,14 @@ buttons.forEach((button) => {
     }
   }
 
+  // ANCHOR
   function handleTouchEnd(e) {
     if (e.touches.length === 0) {
       isMoving = false;
     }
   }
 
+  // ANCHOR
   function handleWheel(e) {
     e.preventDefault();
     const increment = e.deltaY < 0 ? SCALE_INCREMENT : -SCALE_INCREMENT;
@@ -277,6 +295,7 @@ buttons.forEach((button) => {
     transformImage();
   }
 
+  // ANCHOR
   lightboxImage.addEventListener("mousedown", handleMouseDown);
   lightboxImage.addEventListener("mousemove", handleMouseMove);
   lightboxImage.addEventListener("mouseup", handleMouseUp);
@@ -286,6 +305,7 @@ buttons.forEach((button) => {
   lightboxImage.addEventListener("wheel", handleWheel);
   self.addEventListener("keydown", handleKeyActions);
 
+  // ANCHOR
   function loadImage(src) {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -295,6 +315,7 @@ buttons.forEach((button) => {
     });
   }
 
+  // ANCHOR
   function setImageLink(linkElement) {
     const imageSrc = linkElement.getAttribute("data-src");
 
@@ -307,6 +328,7 @@ buttons.forEach((button) => {
       });
   }
 
+  // ANCHOR
   function setImageLinks() {
     const linkElements = document.querySelectorAll(".imageLink");
 
@@ -317,6 +339,9 @@ buttons.forEach((button) => {
 
   setImageLinks();
 
+  gsap.registerPlugin(ScrollTrigger, Draggable);
+
+  // ANCHOR
   async function openLightbox(e, index) {
     e.preventDefault();
     currentItem = index;
@@ -330,7 +355,6 @@ buttons.forEach((button) => {
     });
 
     updateTitleAndDescription(currentItem);
-    updateActiveThumbnail();
 
     gsap.fromTo(
       lightboxImage,
@@ -342,6 +366,7 @@ buttons.forEach((button) => {
     lightboxImage.src = highResImage.src;
   }
 
+  // ANCHOR
   function handleClick(e, index) {
     e.preventDefault();
     openLightbox(e, index).catch(console.error);
@@ -351,6 +376,7 @@ buttons.forEach((button) => {
     item.addEventListener("click", (e) => handleClick(e, index));
   });
 
+  // ANCHOR
   function updateTitleAndDescription(index) {
     const imgElement = items[index].querySelector("img");
     const title = document.getElementById("lightbox-title");
@@ -369,6 +395,7 @@ buttons.forEach((button) => {
     lightbox.setAttribute("aria-describedby", "lightbox-description");
   }
 
+  // ANCHOR
   function updateLightbox({ src, alt, active, counter }) {
     lightboxImage.src = src;
     lightboxImage.alt = alt;
@@ -377,41 +404,7 @@ buttons.forEach((button) => {
     document.getElementById("image-counter").innerText = counter;
   }
 
-function generateThumbnails() {
-  const thumbnailContainer = document.getElementById("thumbnail-images");
-
-  items.forEach((item, index) => {
-    const imgElement = item.querySelector("img");
-    const thumbnailSrc = imgElement.getAttribute("data-src-thumb");
-
-    const thumbnail = document.createElement("img");
-    thumbnail.src = thumbnailSrc;
-    thumbnail.className = "thumbnail";
-
-    thumbnail.addEventListener("click", () => {
-      openLightbox(null, index);
-    });
-
-    thumbnailContainer.appendChild(thumbnail);
-  });
-}
-
-
-function updateActiveThumbnail() {
-  const thumbnails = document.querySelectorAll(".thumbnail");
-
-  thumbnails.forEach((thumbnail, index) => {
-    thumbnail.classList.remove("active");
-    if (index === currentItem) {
-      thumbnail.classList.add("active");
-    }
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  generateThumbnails();
-});
-
+  // ANCHOR
   function changeImage(direction) {
     resetImageAndAnimation();
 
@@ -423,7 +416,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     updateTitleAndDescription(currentItem);
-    updateActiveThumbnail();
 
     const imageCounter = document.getElementById("image-counter");
     imageCounter.innerText = `${currentItem + 1} / ${items.length}`;
@@ -444,6 +436,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ANCHOR
   function transformImage() {
     gsap.set(lightboxImage, {
       x: translateX,
@@ -452,6 +445,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ANCHOR
   function closeLightbox() {
     if (document.fullscreenElement) {
       document.exitFullscreen().catch((err) => {
@@ -466,6 +460,7 @@ document.addEventListener("DOMContentLoaded", () => {
     items[currentItem].focus();
   }
 
+  // ANCHOR
   prevBtn.addEventListener("click", () => {
     changeImage(-1);
   });
@@ -516,6 +511,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // ANCHOR
+  const icons = document.querySelectorAll(".lightbox .icon");
+
   icons.forEach((icon) => {
     let pulseAnimation;
 
@@ -539,6 +537,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // ANCHOR
   function resetImageAndAnimation() {
     gsap.set(lightboxImage, {
       x: 0,
@@ -556,6 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
     translateY = 0;
   }
 
+  // ANCHOR
   function preventCloseOnElements() {
     const elementsToPreventClose = [
       "lightbox-image",
@@ -575,6 +575,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ANCHOR
   function closeOnOuterClick() {
     if (lightbox) {
       lightbox.addEventListener("click", () => {
@@ -587,6 +588,7 @@ document.addEventListener("DOMContentLoaded", () => {
   preventCloseOnElements();
   closeOnOuterClick();
 
+  // ANCHOR
   function toggleFullscreen() {
     return document.fullscreenElement
       ? document.exitFullscreen()
@@ -600,7 +602,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 }
 
-const items = document.querySelectorAll(".item");
+// ANCHOR
+const items = Array.from(document.querySelectorAll(".item"));
 
 const defaultConfig = {
   overlayDuration: 0.5,
@@ -668,6 +671,7 @@ items.forEach((item) => {
   item.addEventListener("mouseout", toggle(false));
 });
 
+// ANCHOR
 function printImage() {
   const lightboxImage = document.getElementById("lightbox-image");
 
@@ -710,6 +714,7 @@ function printImage() {
   });
 }
 
+// ANCHOR
 function protectImages() {
   const images = document.getElementsByTagName("img");
 
