@@ -147,7 +147,6 @@ a {
   padding: 0;
   margin: 0;
   justify-content: center;
-  overflow-x: hidden;
   position: relative;
   width: 100%;
   z-index: 1000;
