@@ -396,15 +396,6 @@ function init() {
   }
 
   // ANCHOR
-  function updateLightbox({ src, alt, active, counter }) {
-    lightboxImage.src = src;
-    lightboxImage.alt = alt;
-    lightbox.classList.toggle("active", active);
-    lightbox.style.display = active ? "flex" : "none";
-    document.getElementById("image-counter").innerText = counter;
-  }
-
-  // ANCHOR
   function changeImage(direction) {
     resetImageAndAnimation();
 
@@ -437,12 +428,12 @@ function init() {
   }
 
   // ANCHOR
-  function transformImage() {
-    gsap.set(lightboxImage, {
-      x: translateX,
-      y: translateY,
-      scale: scale,
-    });
+  function updateLightbox({ src, alt, active, counter }) {
+    lightboxImage.src = src;
+    lightboxImage.alt = alt;
+    lightbox.classList.toggle("active", active);
+    lightbox.style.display = active ? "flex" : "none";
+    document.getElementById("image-counter").innerText = counter;
   }
 
   // ANCHOR
@@ -458,6 +449,18 @@ function init() {
     lightbox.style.display = "none";
 
     items[currentItem].focus();
+  }
+
+  // ANCHOR
+
+
+  // ANCHOR
+  function transformImage() {
+    gsap.set(lightboxImage, {
+      x: translateX,
+      y: translateY,
+      scale: scale,
+    });
   }
 
   // ANCHOR
