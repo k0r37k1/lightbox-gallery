@@ -131,7 +131,7 @@ a {
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 80%;
+  height: 100%;
   padding: 0;
   margin: 0;
   overflow: hidden;
@@ -150,6 +150,24 @@ a {
   position: relative;
   width: 100%;
   z-index: 1000;
+}
+
+.thumbnails-carousel {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: hidden;
+}
+
+.thumbnail {
+  width: 200px;
+  height: 100%;
+  margin: 5px;
+  cursor: pointer;
+}
+
+/* Active Thumbnail */
+.thumbnail.active {
+  border: 2px #fff solid;
 }
 
 #lightbox-image {

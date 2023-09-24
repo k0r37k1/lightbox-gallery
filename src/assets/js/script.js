@@ -355,6 +355,7 @@ function init() {
     });
 
     updateTitleAndDescription(currentItem);
+    syncThumbnail(currentItem);
 
     gsap.fromTo(
       lightboxImage,
@@ -407,6 +408,7 @@ function init() {
     }
 
     updateTitleAndDescription(currentItem);
+    syncThumbnail(currentItem);
 
     const imageCounter = document.getElementById("image-counter");
     imageCounter.innerText = `${currentItem + 1} / ${items.length}`;
@@ -452,7 +454,38 @@ function init() {
   }
 
   // ANCHOR
+  const thumbnailContainer = document.getElementById("thumbnails");
 
+  items.forEach((item, index) => {
+    const { srcThumb } = item.querySelector("img").dataset;
+    const thumbnail = document.createElement("img");
+
+    thumbnail.src = srcThumb;
+    thumbnail.className = "thumbnail";
+    thumbnail.dataset.index = index;
+
+    thumbnail.addEventListener("click", (e) => {
+      const index = parseInt(e.target.dataset.index, 10);
+      changeImage(index - currentItem);
+    });
+
+    thumbnailContainer.appendChild(thumbnail);
+  });
+
+    gsap.from(".thumbnail", {
+      opacity: 0,
+      y: -50,
+      stagger: 0.1,
+      duration: 1,
+    });
+
+  // ANCHOR
+  const syncThumbnail = (index) => {
+    const thumbnails = document.querySelectorAll(".thumbnail");
+    thumbnails.forEach((thumb, thumbIndex) => {
+      thumb.classList.toggle("active", thumbIndex === index);
+    });
+  };
 
   // ANCHOR
   function transformImage() {
