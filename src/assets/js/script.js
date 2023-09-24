@@ -472,6 +472,27 @@ function init() {
     thumbnailContainer.appendChild(thumbnail);
   });
 
+  // Initialize ScrollTrigger for infinite scrolling
+  ScrollTrigger.create({
+    trigger: ".thumbnails-carousel",
+    start: "top bottom",
+    end: "bottom top",
+    onEnter: () => {
+      // Code to add more thumbnails or loop existing ones
+    },
+    markers: true,
+  });
+
+  // Initialize Draggable to make the entire thumbnail carousel draggable along the x-axis
+  Draggable.create(".thumbnails-carousel", {
+    type: "x",
+    edgeResistance: 0.65,
+    bounds: "#thumbnails-container",
+    onDragEnd: function () {
+      // Code to update the carousel based on drag action
+    },
+  });
+
     gsap.from(".thumbnail", {
       opacity: 0,
       y: -50,

@@ -150,15 +150,17 @@ a {
   position: relative;
   width: 100%;
   z-index: 1000;
+  overflow: hidden;
 }
 
 .thumbnails-carousel {
   display: flex;
   flex-wrap: nowrap;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .thumbnail {
+  flex: 0 0 auto;
   width: 200px;
   height: 100%;
   margin: 5px;
