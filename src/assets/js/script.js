@@ -339,8 +339,6 @@ function init() {
 
   setImageLinks();
 
-  gsap.registerPlugin(ScrollTrigger, Draggable);
-
   // ANCHOR
   async function openLightbox(e, index) {
     e.preventDefault();
@@ -397,37 +395,37 @@ function init() {
   }
 
   // ANCHOR
-  function changeImage(direction) {
-    resetImageAndAnimation();
+function changeImage(direction) {
+  resetImageAndAnimation();
 
-    currentItem = (currentItem + direction + items.length) % items.length;
+  currentItem = (currentItem + direction + items.length) % items.length;
 
-    const newSrc = items[currentItem]?.querySelector("a")?.href;
-    if (newSrc) {
-      lightboxImage.src = newSrc;
-    }
-
-    updateTitleAndDescription(currentItem);
-    syncThumbnail(currentItem);
-
-    const imageCounter = document.getElementById("image-counter");
-    imageCounter.innerText = `${currentItem + 1} / ${items.length}`;
-
-    xPercent = 100 * direction;
-
-    gsap.to(lightboxImage, {
-      xPercent,
-      opacity: 0,
-      duration: 1,
-      onComplete: () => {
-        gsap.fromTo(
-          lightboxImage,
-          { xPercent: -xPercent, opacity: 0 },
-          { xPercent: 0, opacity: 1, duration: 1 }
-        );
-      },
-    });
+  const newSrc = items[currentItem]?.querySelector("a")?.href;
+  if (newSrc) {
+    lightboxImage.src = newSrc;
   }
+
+  updateTitleAndDescription(currentItem);
+  syncThumbnail(currentItem);
+
+  const imageCounter = document.getElementById("image-counter");
+  imageCounter.innerText = `${currentItem + 1} / ${items.length}`;
+
+  xPercent = 100 * direction;
+
+  gsap.to(lightboxImage, {
+    xPercent,
+    opacity: 0,
+    duration: 1,
+    onComplete: () => {
+      gsap.fromTo(
+        lightboxImage,
+        { xPercent: -xPercent, opacity: 0 },
+        { xPercent: 0, opacity: 1, duration: 1 }
+      );
+    },
+  });
+}
 
   // ANCHOR
   function updateLightbox({ src, alt, active, counter }) {
@@ -472,33 +470,12 @@ function init() {
     thumbnailContainer.appendChild(thumbnail);
   });
 
-  // Initialize ScrollTrigger for infinite scrolling
-  ScrollTrigger.create({
-    trigger: ".thumbnails-carousel",
-    start: "top bottom",
-    end: "bottom top",
-    onEnter: () => {
-      // Code to add more thumbnails or loop existing ones
-    },
-    markers: true,
+  gsap.from(".thumbnail", {
+    opacity: 0,
+    y: -50,
+    stagger: 0.1,
+    duration: 1,
   });
-
-  // Initialize Draggable to make the entire thumbnail carousel draggable along the x-axis
-  Draggable.create(".thumbnails-carousel", {
-    type: "x",
-    edgeResistance: 0.65,
-    bounds: "#thumbnails-container",
-    onDragEnd: function () {
-      // Code to update the carousel based on drag action
-    },
-  });
-
-    gsap.from(".thumbnail", {
-      opacity: 0,
-      y: -50,
-      stagger: 0.1,
-      duration: 1,
-    });
 
   // ANCHOR
   const syncThumbnail = (index) => {
@@ -507,6 +484,7 @@ function init() {
       thumb.classList.toggle("active", thumbIndex === index);
     });
   };
+
 
   // ANCHOR
   function transformImage() {
