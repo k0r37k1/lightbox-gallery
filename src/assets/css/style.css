@@ -128,7 +128,6 @@ a {
 }
 
 .images-container {
-  justify-content: center;
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -151,13 +150,15 @@ a {
   position: relative;
   width: 100%;
   z-index: 1000;
-  flex-flow: row nowrap;
   overflow: hidden;
+  flex-flow: row wrap;
 }
 
 .thumbnails-carousel {
+  flex-flow: row nowrap;
+  justify-content: center;
   align-items: center;
-  width: 100%;
+  width: max-content;
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
@@ -206,7 +207,7 @@ a {
 }
 
 #lightbox-info {
-  bottom: 3%;
+  bottom: 5%;
   left: 0;
   position: relative;
   text-align: center;

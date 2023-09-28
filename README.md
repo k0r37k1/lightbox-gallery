@@ -22,6 +22,7 @@ This script is under the MIT License so feel free to modify, share or distribute
 - Accessibility features
 - Animations with GSAP 3 library
 - Image operations: Rotate, flip, prev, next, print
+- Thumbnail image carousel - WIP
 
 **Planned Future Enhancements:**
 
@@ -29,7 +30,6 @@ This script is under the MIT License so feel free to modify, share or distribute
 - ImageArray.js (For outsourcing images and code)
 - Video support (using vlite.js library)
 - Automatic slideshow - WIP
-- Thumbnail image carousel - WIP
 - Multilingual support
 - Light Theme
 - Dark/Light mode

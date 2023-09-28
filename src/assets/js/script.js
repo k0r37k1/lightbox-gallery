@@ -452,23 +452,42 @@ function changeImage(direction) {
   }
 
   // ANCHOR
-  const thumbnailContainer = document.getElementById("thumbnails");
+const thumbnailContainer = document.getElementById("thumbnails");
 
+function createThumbnailElement(srcThumb, index) {
+  const thumbnail = document.createElement("img");
+  thumbnail.src = srcThumb;
+  thumbnail.className = "thumbnail";
+  thumbnail.dataset.index = index;
+  return thumbnail;
+}
+
+function handleThumbnailClick(e) {
+  if (e.target.classList.contains("thumbnail")) {
+    const index = parseInt(e.target.dataset.index, 10);
+    changeImage(index - currentItem); // Assuming currentItem is defined elsewhere
+    syncThumbnail(index);
+  }
+}
+
+function populateThumbnails(thumbnailContainer, items) {
   items.forEach((item, index) => {
     const { srcThumb } = item.querySelector("img").dataset;
-    const thumbnail = document.createElement("img");
-
-    thumbnail.src = srcThumb;
-    thumbnail.className = "thumbnail";
-    thumbnail.dataset.index = index;
-
-    thumbnail.addEventListener("click", (e) => {
-      const index = parseInt(e.target.dataset.index, 10);
-      changeImage(index - currentItem);
-    });
-
+    const thumbnail = createThumbnailElement(srcThumb, index);
     thumbnailContainer.appendChild(thumbnail);
   });
+
+  thumbnailContainer.addEventListener("click", handleThumbnailClick);
+}
+
+function syncThumbnail(index) {
+  const thumbnails = document.querySelectorAll(".thumbnail");
+  thumbnails.forEach((thumb, thumbIndex) => {
+    thumb.classList.toggle("active", thumbIndex === index);
+  });
+}
+
+populateThumbnails(thumbnailContainer, items);
 
   gsap.from(".thumbnail", {
     opacity: 0,
@@ -476,15 +495,6 @@ function changeImage(direction) {
     stagger: 0.1,
     duration: 1,
   });
-
-  // ANCHOR
-  const syncThumbnail = (index) => {
-    const thumbnails = document.querySelectorAll(".thumbnail");
-    thumbnails.forEach((thumb, thumbIndex) => {
-      thumb.classList.toggle("active", thumbIndex === index);
-    });
-  };
-
 
   // ANCHOR
   function transformImage() {
