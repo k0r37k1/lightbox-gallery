@@ -1,5 +1,5 @@
 function init() {
-  // ANCHOR
+  // STUB
   const grid = document.querySelector(".grid");
   if (grid === null) {
     console.error("Grid element not found");
@@ -16,12 +16,12 @@ function init() {
     originTop: true,
   });
 
-  //ANCHOR
+  // STUB
   imagesLoaded(grid).on("progress", function () {
     msnry.layout();
   });
 
-  //ANCHOR
+  //STUB
   const loadImageFromData = (img) => {
     const src = img.getAttribute("data-src");
     if (!src) {
@@ -32,7 +32,7 @@ function init() {
     img.removeAttribute("data-src");
   };
 
-  // ANCHOR
+  // STUB
   const handleIntersection = (entries, observer) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
@@ -77,11 +77,11 @@ function init() {
 
   startLazyLoadImages();
 
-  // ANCHOR
+  // STUB
   const lightbox = document.getElementById("lightbox");
   const lightboxImage = document.getElementById("lightbox-image");
 
-  // ANCHOR
+  // STUB
   const closeBtn = Button("close", "Close lightbox");
   const prevBtn = Button("prev", "Previous image");
   const printBtn = Button("print", "Print image");
@@ -95,7 +95,7 @@ function init() {
   const rotateLeftBtn = Button("rotate-left", "Rotate image to the left");
   const rotateRightBtn = Button("rotate-right", "Rotate image to the right");
 
-  // ANCHOR
+  // STUB
   function setAttributes(element, attributes) {
     if (element && typeof attributes === "object") {
       for (const attribute in attributes) {
@@ -104,7 +104,7 @@ function init() {
     }
   }
 
-  // ANCHOR
+  // STUB
   function Button(id, ariaLabel) {
     const button = document.getElementById(id);
     if (!button) return;
@@ -143,7 +143,7 @@ function init() {
   lightbox.setAttribute("aria-labelledby", "lightbox-title");
   lightbox.setAttribute("aria-describedby", "lightbox-description");
 
-  // ANCHOR
+  // STUB
   const SCALE_INCREMENT = 0.1;
   const MIN_SCALE = 0.5;
   const MAX_SCALE = 3;
@@ -162,7 +162,7 @@ function init() {
     scaleY = 1;
   let xPercent;
 
-  // ANCHOR
+  // STUB
   function handleKeyActions(e) {
     if (lightbox.style.display === "none") return;
 
@@ -220,14 +220,14 @@ function init() {
     }
   }
 
-  // ANCHOR
+  // STUB
   function handleMouseDown(e) {
     isMoving = true;
     mouseX = e.clientX;
     mouseY = e.clientY;
   }
 
-  // ANCHOR
+  // STUB
   function handleMouseMove(e) {
     if (!isMoving) return;
     requestAnimationFrame(() => {
@@ -239,12 +239,12 @@ function init() {
     });
   }
 
-  // ANCHOR
+  // STUB
   function handleMouseUp() {
     isMoving = false;
   }
 
-  // ANCHOR
+  // STUB
   function handleTouchStart(e) {
     if (e.touches.length === 1) {
       isMoving = true;
@@ -259,7 +259,7 @@ function init() {
     }
   }
 
-  // ANCHOR
+  // STUB
   function handleTouchMove(e) {
     e.preventDefault();
     if (e.touches.length === 1 && isMoving) {
@@ -280,14 +280,14 @@ function init() {
     }
   }
 
-  // ANCHOR
+  // STUB
   function handleTouchEnd(e) {
     if (e.touches.length === 0) {
       isMoving = false;
     }
   }
 
-  // ANCHOR
+  // STUB
   function handleWheel(e) {
     e.preventDefault();
     const increment = e.deltaY < 0 ? SCALE_INCREMENT : -SCALE_INCREMENT;
@@ -295,7 +295,7 @@ function init() {
     transformImage();
   }
 
-  // ANCHOR
+  // STUB
   lightboxImage.addEventListener("mousedown", handleMouseDown);
   lightboxImage.addEventListener("mousemove", handleMouseMove);
   lightboxImage.addEventListener("mouseup", handleMouseUp);
@@ -305,7 +305,7 @@ function init() {
   lightboxImage.addEventListener("wheel", handleWheel);
   self.addEventListener("keydown", handleKeyActions);
 
-  // ANCHOR
+  // STUB
   function loadImage(src) {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -315,7 +315,7 @@ function init() {
     });
   }
 
-  // ANCHOR
+  // STUB
   function setImageLink(linkElement) {
     const imageSrc = linkElement.getAttribute("data-src");
 
@@ -328,7 +328,7 @@ function init() {
       });
   }
 
-  // ANCHOR
+  // STUB
   function setImageLinks() {
     const linkElements = document.querySelectorAll(".imageLink");
 
@@ -339,7 +339,7 @@ function init() {
 
   setImageLinks();
 
-  // ANCHOR
+  // STUB
   async function openLightbox(e, index) {
     e.preventDefault();
     currentItem = index;
@@ -365,7 +365,7 @@ function init() {
     lightboxImage.src = highResImage.src;
   }
 
-  // ANCHOR
+  // STUB
   function handleClick(e, index) {
     e.preventDefault();
     openLightbox(e, index).catch(console.error);
@@ -375,7 +375,7 @@ function init() {
     item.addEventListener("click", (e) => handleClick(e, index));
   });
 
-  // ANCHOR
+  // STUB
   function updateTitleAndDescription(index) {
     const imgElement = items[index].querySelector("img");
     const title = document.getElementById("lightbox-title");
@@ -394,7 +394,7 @@ function init() {
     lightbox.setAttribute("aria-describedby", "lightbox-description");
   }
 
-  // ANCHOR
+  // STUB
 function changeImage(direction) {
   resetImageAndAnimation();
 
@@ -427,7 +427,7 @@ function changeImage(direction) {
   });
 }
 
-  // ANCHOR
+  // STUB
   function updateLightbox({ src, alt, active, counter }) {
     lightboxImage.src = src;
     lightboxImage.alt = alt;
@@ -436,7 +436,7 @@ function changeImage(direction) {
     document.getElementById("image-counter").innerText = counter;
   }
 
-  // ANCHOR
+  // STUB
   function closeLightbox() {
     if (document.fullscreenElement) {
       document.exitFullscreen().catch((err) => {
@@ -451,7 +451,7 @@ function changeImage(direction) {
     items[currentItem].focus();
   }
 
-  // ANCHOR
+  // STUB
 const thumbnailContainer = document.getElementById("thumbnails");
 
 function createThumbnailElement(srcThumb, index) {
@@ -496,7 +496,7 @@ populateThumbnails(thumbnailContainer, items);
     duration: 1,
   });
 
-  // ANCHOR
+  // STUB
   function transformImage() {
     gsap.set(lightboxImage, {
       x: translateX,
@@ -505,7 +505,7 @@ populateThumbnails(thumbnailContainer, items);
     });
   }
 
-  // ANCHOR
+  // STUB
   prevBtn.addEventListener("click", () => {
     changeImage(-1);
   });
@@ -556,7 +556,7 @@ populateThumbnails(thumbnailContainer, items);
     });
   });
 
-  // ANCHOR
+  // STUB
   const icons = document.querySelectorAll(".lightbox .icon");
 
   icons.forEach((icon) => {
@@ -582,7 +582,7 @@ populateThumbnails(thumbnailContainer, items);
     });
   });
 
-  // ANCHOR
+  // STUB
   function resetImageAndAnimation() {
     gsap.set(lightboxImage, {
       x: 0,
@@ -600,7 +600,7 @@ populateThumbnails(thumbnailContainer, items);
     translateY = 0;
   }
 
-  // ANCHOR
+  // STUB
   function preventCloseOnElements() {
     const elementsToPreventClose = [
       "lightbox-image",
@@ -620,7 +620,7 @@ populateThumbnails(thumbnailContainer, items);
     });
   }
 
-  // ANCHOR
+  // STUB
   function closeOnOuterClick() {
     if (lightbox) {
       lightbox.addEventListener("click", () => {
@@ -633,7 +633,7 @@ populateThumbnails(thumbnailContainer, items);
   preventCloseOnElements();
   closeOnOuterClick();
 
-  // ANCHOR
+  // STUB
   function toggleFullscreen() {
     return document.fullscreenElement
       ? document.exitFullscreen()
@@ -647,7 +647,7 @@ populateThumbnails(thumbnailContainer, items);
   });
 }
 
-// ANCHOR
+// STUB
 const items = Array.from(document.querySelectorAll(".item"));
 
 const defaultConfig = {
@@ -716,7 +716,7 @@ items.forEach((item) => {
   item.addEventListener("mouseout", toggle(false));
 });
 
-// ANCHOR
+// STUB
 function printImage() {
   const lightboxImage = document.getElementById("lightbox-image");
 
@@ -759,7 +759,7 @@ function printImage() {
   });
 }
 
-// ANCHOR
+// STUB
 function protectImages() {
   const images = document.getElementsByTagName("img");
 
