@@ -156,7 +156,7 @@ function init() {
   let initialPinchDistance = 0;
   let initialScale = 1;
 
-  let currentItem = 0;
+  let currentItem = 1;
   let rotation = 0;
   let scaleX = 1,
     scaleY = 1;
@@ -353,7 +353,7 @@ function init() {
     });
 
     updateTitleAndDescription(currentItem);
-    syncThumbnail(currentItem);
+    syncThumbnail(currentItem + 1);
 
     gsap.fromTo(
       lightboxImage,
@@ -395,37 +395,37 @@ function init() {
   }
 
   // STUB
-function changeImage(direction) {
-  resetImageAndAnimation();
+  function changeImage(direction) {
+    resetImageAndAnimation();
 
-  currentItem = (currentItem + direction + items.length) % items.length;
+    currentItem = (currentItem + direction + items.length) % items.length;
 
-  const newSrc = items[currentItem]?.querySelector("a")?.href;
-  if (newSrc) {
-    lightboxImage.src = newSrc;
+    const newSrc = items[currentItem]?.querySelector("a")?.href;
+    if (newSrc) {
+      lightboxImage.src = newSrc;
+    }
+
+    updateTitleAndDescription(currentItem);
+    syncThumbnail(currentItem + 1);
+
+    const imageCounter = document.getElementById("image-counter");
+    imageCounter.innerText = `${currentItem + 1} / ${items.length}`;
+
+    xPercent = 100 * direction;
+
+    gsap.to(lightboxImage, {
+      xPercent,
+      opacity: 0,
+      duration: 1,
+      onComplete: () => {
+        gsap.fromTo(
+          lightboxImage,
+          { xPercent: -xPercent, opacity: 0 },
+          { xPercent: 0, opacity: 1, duration: 1 }
+        );
+      },
+    });
   }
-
-  updateTitleAndDescription(currentItem);
-  syncThumbnail(currentItem);
-
-  const imageCounter = document.getElementById("image-counter");
-  imageCounter.innerText = `${currentItem + 1} / ${items.length}`;
-
-  xPercent = 100 * direction;
-
-  gsap.to(lightboxImage, {
-    xPercent,
-    opacity: 0,
-    duration: 1,
-    onComplete: () => {
-      gsap.fromTo(
-        lightboxImage,
-        { xPercent: -xPercent, opacity: 0 },
-        { xPercent: 0, opacity: 1, duration: 1 }
-      );
-    },
-  });
-}
 
   // STUB
   function updateLightbox({ src, alt, active, counter }) {
@@ -452,42 +452,33 @@ function changeImage(direction) {
   }
 
   // STUB
-const thumbnailContainer = document.getElementById("thumbnails");
+  const thumbnailContainer = document.getElementById("thumbnails");
 
-function createThumbnailElement(srcThumb, index) {
-  const thumbnail = document.createElement("img");
-  thumbnail.src = srcThumb;
-  thumbnail.className = "thumbnail";
-  thumbnail.dataset.index = index;
-  return thumbnail;
-}
-
-function handleThumbnailClick(e) {
-  if (e.target.classList.contains("thumbnail")) {
-    const index = parseInt(e.target.dataset.index, 10);
-    changeImage(index - currentItem); // Assuming currentItem is defined elsewhere
-    syncThumbnail(index);
+  function handleThumbnailClick(e) {
+    if (e.target.classList.contains("thumbnail")) {
+      const index = parseInt(
+        e.target.closest(".thumbnail-image").dataset.index,
+        10
+      );
+      changeImage(index - currentItem);
+      syncThumbnail(index);
+    }
   }
-}
 
-function populateThumbnails(thumbnailContainer, items) {
-  items.forEach((item, index) => {
-    const { srcThumb } = item.querySelector("img").dataset;
-    const thumbnail = createThumbnailElement(srcThumb, index);
-    thumbnailContainer.appendChild(thumbnail);
-  });
+  function syncThumbnail(index) {
+    const thumbnails = document.querySelectorAll(".thumbnail-image");
+    thumbnails.forEach((thumbContainer) => {
+      const thumbIndexFromData = parseInt(thumbContainer.dataset.index, 10);
+      const thumb = thumbContainer.querySelector(".thumbnail");
+      if (thumbIndexFromData === index) {
+        thumb.classList.add("active");
+      } else {
+        thumb.classList.remove("active");
+      }
+    });
+  }
 
   thumbnailContainer.addEventListener("click", handleThumbnailClick);
-}
-
-function syncThumbnail(index) {
-  const thumbnails = document.querySelectorAll(".thumbnail");
-  thumbnails.forEach((thumb, thumbIndex) => {
-    thumb.classList.toggle("active", thumbIndex === index);
-  });
-}
-
-populateThumbnails(thumbnailContainer, items);
 
   gsap.from(".thumbnail", {
     opacity: 0,
